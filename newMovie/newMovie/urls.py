@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+'''
 from django.urls import path
 from MovieApp import views
 from django.contrib import admin
@@ -28,6 +29,22 @@ urlpatterns = [
     path('update/<int:movie_id>/', views.movie_update, name='movie_update'),
     path('delete/<int:movie_id>/', views.movie_delete, name='movie_delete'),
     # API URLs
+    path('api/movies/', views.MovieListCreateAPIView.as_view(), name='movie-list-create'),
+    path('api/movies/<int:pk>/', views.MovieRetrieveUpdateDestroyAPIView.as_view(), name='movie-retrieve-update-destroy'),
+]
+'''
+# MovieApp/urls.py
+from django.urls import path
+from MovieApp import views
+
+urlpatterns = [
+    path('', views.MovieLoginView.as_view(), name='movie_login'),
+    path('list/', views.MovieListView.as_view(), name='movie_list'),
+    path('details/<int:pk>/', views.MovieDetailView.as_view(), name='movie_details'),
+    path('add/', views.MovieCreateView.as_view(), name='movie_add'),
+    path('update/<int:pk>/', views.MovieUpdateView.as_view(), name='movie_update'),
+    path('delete/<int:pk>/', views.MovieDeleteView.as_view(), name='movie_delete'),
+    # API URLs remain the same
     path('api/movies/', views.MovieListCreateAPIView.as_view(), name='movie-list-create'),
     path('api/movies/<int:pk>/', views.MovieRetrieveUpdateDestroyAPIView.as_view(), name='movie-retrieve-update-destroy'),
 ]
