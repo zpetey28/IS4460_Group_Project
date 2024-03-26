@@ -14,31 +14,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-'''
-from django.urls import path
-from MovieApp import views
-from django.contrib import admin
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.movie_login, name='movie_login'),
-    path('login/', views.movie_login, name='movie_login'),
-    path('list/', views.movie_list, name='movie_list'),
-    path('details/<int:movie_id>/', views.movie_details, name='movie_details'),
-    path('add/', views.movie_add, name='movie_add'),
-    path('update/<int:movie_id>/', views.movie_update, name='movie_update'),
-    path('delete/<int:movie_id>/', views.movie_delete, name='movie_delete'),
-    # API URLs
-    path('api/movies/', views.MovieListCreateAPIView.as_view(), name='movie-list-create'),
-    path('api/movies/<int:pk>/', views.MovieRetrieveUpdateDestroyAPIView.as_view(), name='movie-retrieve-update-destroy'),
-]
-'''
 # MovieApp/urls.py
 from django.urls import path
 from MovieApp import views
+from django.contrib import admin
+from django.contrib.auth.views import LoginView
+from MovieApp.views import MovieLoginView
 
 urlpatterns = [
-    path('', views.MovieLoginView.as_view(), name='movie_login'),
+    #path('login/', LoginView.as_view(template_name='your_template_name.html'), name='login'),
+    path('login/', MovieLoginView.as_view(), name='movie_login'),
+    #path('login/', views.MovieLoginView.as_view(), name='movie_login'),
+    path('logout/', views.MovieLogoutView.as_view(), name='movie_logout'),
+    path('admin/', admin.site.urls),
     path('list/', views.MovieListView.as_view(), name='movie_list'),
     path('details/<int:pk>/', views.MovieDetailView.as_view(), name='movie_details'),
     path('add/', views.MovieCreateView.as_view(), name='movie_add'),
