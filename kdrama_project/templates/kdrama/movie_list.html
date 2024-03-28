@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>K-drama List</title>
+    <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>K-drama list</h1>
+        <p>Hello, {{ user.username }}!</p>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        <a href="{% url 'movie-add' %}">Add Movie</a>
+        <ul>
+            {% for kdrama in kdramas %}
+                <li>
+                    <img src="{{ kdrama.image_url }}" alt="{{ kdrama.title }}">
+                    <p>Title: {{kdrama.title}}</p>
+                    <p>Description: {{ kdrama.description }}</p>
+                    <p>Director: {{ kdrama.director }}</p>
+                    <a href="{% url 'movie-details' kdrama.movie_id %}">{{ kdrama.title }} </a>
+                    <a href="{% url 'movie-update' kdrama.movie_id %}">Edit</a>
+                    <a href="{% url 'movie-delete' kdrama.movie_id %}">Delete</a>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </li>
+            {% empty %}
+                <li>No kdramas yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
