@@ -1,5 +1,6 @@
 
 from django.db import models
+from django.contrib.auth.models import User
 
 class Movie(models.Model):
     movie_id = models.AutoField(primary_key=True)
@@ -15,8 +16,6 @@ class Movie(models.Model):
     youtube_url = models.URLField(blank=True)
 
 
-from django.db import models
-from django.contrib.auth.models import User
 
 class Role(models.Model):
     ROLE_CHOICES = (
@@ -26,12 +25,8 @@ class Role(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
 
-
-
-
-
-
-
+    def __str__(self):
+        return self.rol
 
 
 

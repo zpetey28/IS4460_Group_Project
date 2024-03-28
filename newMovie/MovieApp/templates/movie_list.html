@@ -16,13 +16,35 @@
             max-width: 100%;
             height: auto;
         }
+        .logout-form button, .action-button {
+            background-color: #444; /* Button background color */
+            color: #fff; /* Button text color */
+            border: none;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px; /* Rounded corners */
+            margin-top: 10px;
+        }
+        .logout-form {
+            display: inline;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>K-drama list</h1>
         <p>Hello, {{ user.username }}!</p>
-        <a href="{% url 'movie_add' %}">Add Movie</a>
+        <!-- Logout Form -->
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+        <br>
+        <br>
+        <br>
+        <a href="{% url 'movie_add' %}" class="action-button">Add Movie</a>
         <ul>
             {% for movie in movies %}
                 <li>
@@ -30,9 +52,9 @@
                     <p>Title: {{movie.title}}</p>
                     <p>Description: {{ movie.description }}</p>
                     <p>Director: {{ movie.director }}</p>
-                    <a href="{% url 'movie_details' movie.movie_id %}">{{ movie.title }} </a>
-                    <a href="{% url 'movie_update' movie.movie_id %}">Edit</a>
-                    <a href="{% url 'movie_delete' movie.movie_id %}">Delete</a>
+                    <a href="{% url 'movie_details' movie.movie_id %}" class="action-button">{{ movie.title }}</a>
+                    <a href="{% url 'movie_update' movie.movie_id %}" class="action-button">Edit</a>
+                    <a href="{% url 'movie_delete' movie.movie_id %}" class="action-button">Delete</a>
                     <br>
                     <br>
                     <br>

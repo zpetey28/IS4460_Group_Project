@@ -26,7 +26,7 @@ urlpatterns = [
     #path('login/', LoginView.as_view(template_name='your_template_name.html'), name='login'),
     path('login/', MovieLoginView.as_view(), name='movie_login'),
     #path('login/', views.MovieLoginView.as_view(), name='movie_login'),
-    path('logout/', views.MovieLogoutView.as_view(), name='movie_logout'),
+    path('logout/', views.MovieLogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
     path('list/', views.MovieListView.as_view(), name='movie_list'),
     path('details/<int:pk>/', views.MovieDetailView.as_view(), name='movie_details'),
