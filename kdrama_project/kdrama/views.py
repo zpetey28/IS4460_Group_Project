@@ -42,11 +42,12 @@ class MovieDetailView(LoginRequiredMixin, View):
 
 class MovieCreateView(LoginRequiredMixin, View):
     template_name = 'kdrama/movie_form.html'
+    action = "Add"
 
     def get(self, request):
         kdrama_form = MovieForm()
 
-        context = {'form':kdrama_form}
+        context = {'form':kdrama_form, 'action':self.action}
 
         return render(request = request, template_name=self.template_name, context=context)
     
@@ -63,13 +64,14 @@ class MovieCreateView(LoginRequiredMixin, View):
             kdrama_form.save()
             return redirect(reverse('movie-list'))
         
-        context = {'form':kdrama_form}
+        context = {'form':kdrama_form, 'action':self.action}
 
         return render(request = request, template_name=self.template_name, context=context)
 
 
 class MovieUpdateView(LoginRequiredMixin, View):
     template_name = 'kdrama/movie_form.html'
+    action = "Update"
 
     def get(self, request, kdrama_id=None):
         if kdrama_id:
@@ -79,7 +81,7 @@ class MovieUpdateView(LoginRequiredMixin, View):
 
         kdrama_form = MovieForm(instance=kdrama)
         
-        context = {'kdrama':kdrama, 'form':kdrama_form}
+        context = {'kdrama':kdrama, 'form':kdrama_form, 'action':self.action}
 
         return render(request = request, template_name=self.template_name, context=context)
     
@@ -96,12 +98,13 @@ class MovieUpdateView(LoginRequiredMixin, View):
             kdrama_form.save()
             return redirect(reverse('movie-details') + str(kdrama_id))
         
-        context = {'kdrama':kdrama, 'form':kdrama_form}
+        context = {'kdrama':kdrama, 'form':kdrama_form, 'action':self.action}
 
         return render(request = request, template_name=self.template_name, context=context)
 
 class MovieDeleteView(LoginRequiredMixin, View):
     template_name = 'kdrama/movie_form.html'
+    action = "Delete"
 
     def get(self, request, kdrama_id=None):
         if kdrama_id:
@@ -114,7 +117,7 @@ class MovieDeleteView(LoginRequiredMixin, View):
         for field in kdrama_form.fields:
             kdrama_form.fields[field].widget.attrs['disabled'] = True
 
-        context = {'kdrama':kdrama, 'form':kdrama_form}
+        context = {'kdrama':kdrama, 'form':kdrama_form, 'action':self.action}
 
         return render(request = request, template_name=self.template_name, context=context)
     
