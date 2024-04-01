@@ -7,15 +7,16 @@ body {
     background-image: url("../images/flowerbackground.jpg");
     background-size: 1200px 1200px;
     background-repeat: repeat;
+    margin: 0px;
+    padding: 0px;
 }
 
 .footer {
-    position:fixed;
+    position: absolute;
     padding: 10px 10px 10px 10px;
     left:0px;
     right:0px;
     bottom:0px;
-    width: 100%;
     height: 50px;
     background-image: linear-gradient(to right, #992592, #A73A64);
 
@@ -30,4 +31,29 @@ body {
 #footer-info {
     position: absolute;
     right:10%;
+}
+
+.container {
+    background-color: #FFE6E6;
+    border-width:10px; 
+    border-style: solid;
+    border-image: linear-gradient(to right, #AA36A3, #B84B75) 1;
+}
+
+.form-button {
+    font-weight: bold;
+    background-image: linear-gradient(to right, #AA36A3, #C95C86);
+    height: 40px;
+    width: 170px;
+    border: none;
+    font-size:18px;
+}
+
+.form-button:hover {
+    font-weight: bold;
+    background-image: linear-gradient(to right, #BB47B4, #DA6D97);
+    height: 40px;
+    width: 170px;
+    border: none;
+    font-size:18px;
 }

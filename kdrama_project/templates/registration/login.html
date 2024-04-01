@@ -3,7 +3,6 @@
 <html>
 <head>
     {% load static %}
-
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
     <title>Kdrama Login</title>
@@ -14,17 +13,12 @@
         }
 
         .container {
-            background-color: #FFE6E6;
-            border-width:10px; 
-            border-style: solid;
-            border-image: linear-gradient(to right, #AA36A3, #B84B75) 1;
-
             position: absolute;
             right: 200px;
             top: 15%;
             bottom: 50%;
             width: 30%;
-            height: 50%;
+            height: 55%;
             justify-content: center;
             text-align: center;
 
@@ -50,13 +44,13 @@
             font-weight: bold;
             background-image: linear-gradient(to right, #AA36A3, #C95C86);
             height: 40px;
-            width: 33%;
+            width: 40%;
             border: none;
             font-size:18px;
 
             position:absolute;
-            right:33%;
-            left: 33%;
+            right:30%;
+            left: 30%;
             bottom: 30px;
 
             display:flex;
@@ -71,13 +65,13 @@
             background-image: linear-gradient(to right, #BB47B4, #DA6D97);
             
             height: 40px;
-            width: 33%;
+            width: 40%;
             border: none;
             font-size:18px;
 
             position:absolute;
-            right:33%;
-            left: 33%;
+            right:30%;
+            left: 30%;
             bottom: 30px;
 
             display:flex;
@@ -102,12 +96,15 @@
             justify-content: start;
             text-align: start;
             width: 40%;
-            height: 100%;
-            margin-left: 30%;
-            margin-right: 30%;
+            height: 85%;
 
             display: flex;
             flex-direction: column;
+
+            position:absolute;
+            right: 30%;
+            left: 30%;
+            top: 60px;
         }
 
         .form-label {
@@ -138,31 +135,10 @@
         }
 
         .form-button {
-            font-weight: bold;
-            background-image: linear-gradient(to right, #AA36A3, #C95C86);
-            height: 40px;
-            width: 33%;
-            border: none;
-            font-size:18px;
-
             position:absolute;
-            right:33%;
-            left: 33%;
-            bottom: 50px;
-        }
-
-        .form-button:hover {
-            font-weight: bold;
-            background-image: linear-gradient(to right, #BB47B4, #DA6D97);
-            height: 40px;
-            width: 33%;
-            border: none;
-            font-size:18px;
-
-            position:absolute;
-            right:33%;
-            left: 33%;
-            bottom: 50px;
+            right: 5%;
+            left: 5%;
+            bottom: 40px;
         }
 
     </style>
@@ -204,6 +180,5 @@
     </div>
 </body>
 </html>
-
 
 
