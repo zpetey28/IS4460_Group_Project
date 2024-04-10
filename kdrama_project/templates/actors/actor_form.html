@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+    <title>Add Actor</title>
+    <style>
+        body {
+            padding-top: 50px;
+        }
+
+        .container {
+            width: 40%;
+            height: 500px;
+            margin-left: 30%;
+            margin-right: 30%;
+            padding-top: 15px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        h1 {
+            position: absolute;
+            top: 55px;
+            right: 25%;
+            left: 25%;
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ action }} Actor</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="form-button">{{ action }}</button>
+        </form>
+    </div>
+
+    <div class="footer">
+        <h4 id="footer-title">K-Drama App</h4>
+        <h4 id="footer-info">© Group 12 Isaac Ahlborn, Daniel Myers, Zack Peterson, Stone Pollock, Matt Young</h4>
+    </div>
+</body>
+</html>

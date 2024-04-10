@@ -13,6 +13,7 @@ class Movie(models.Model):
     genre = models.CharField(max_length=50, blank=True)
     image_url = models.URLField(blank=True)
     youtube_url = models.URLField(blank=True)
+    actors = models.ManyToManyField('Actor', related_name='movies')
 
 class Award(models.Model):
     award_id = models.AutoField(primary_key=True)
@@ -27,6 +28,7 @@ class Studio(models.Model):
     founded = models.DateField()
     owner = models.CharField(max_length=100)
 
+
     def __str__(self):
         return self.name
 
@@ -35,6 +37,7 @@ class Actor(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField()
+
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

@@ -35,6 +35,7 @@
         {% endif %}
         <a href="{% url 'movie-update' kdrama.movie_id %}">Edit</a>
         <a href="{% url 'movie-delete' kdrama.movie_id %}">Delete</a>
+        <a href="{% url 'movie-actors-list' kdrama.movie_id %}">View Actors</a>
     </div>
 </body>
 </html>
