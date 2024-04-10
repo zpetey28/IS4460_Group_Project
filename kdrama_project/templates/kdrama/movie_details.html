@@ -29,13 +29,14 @@
         <p>Runtime: {{ kdrama.runtime }}</p>
         <p>Rating: {{ kdrama.rating }}</p>
         <p>Genre: {{ kdrama.genre }}</p>
+        <a href="{% url 'movie-actors-list' kdrama.movie_id %}">View Actors</a>
+        <a href="{% url 'movie-awards-list' movie_id=movie_id %}">View Awards</a>
         {% if kdrama.youtube_url %}
             <iframe width="560" height="315" src="{{ kdrama.youtube_url }}" frameborder="0" allowfullscreen></iframe>
             <p><a href="{{ kdrama.youtube_url }}">Watch on YouTube</a></p>
         {% endif %}
         <a href="{% url 'movie-update' kdrama.movie_id %}">Edit</a>
         <a href="{% url 'movie-delete' kdrama.movie_id %}">Delete</a>
-        <a href="{% url 'movie-actors-list' kdrama.movie_id %}">View Actors</a>
     </div>
 </body>
 </html>

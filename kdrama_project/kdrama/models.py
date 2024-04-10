@@ -14,6 +14,7 @@ class Movie(models.Model):
     image_url = models.URLField(blank=True)
     youtube_url = models.URLField(blank=True)
     actors = models.ManyToManyField('Actor', related_name='movies')
+    awards = models.ManyToManyField('Award', related_name='movies')
 
 class Award(models.Model):
     award_id = models.AutoField(primary_key=True)
