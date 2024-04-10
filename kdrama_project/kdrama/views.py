@@ -8,7 +8,6 @@ from django.views import View
 from .models import Movie, Actor
 from .forms import MovieForm, ActorForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
 from django.http import HttpResponse
 
 class MovieListCreateAPIView(generics.ListCreateAPIView):
@@ -216,3 +215,4 @@ class ActorDeleteView(View):
         actor = get_object_or_404(Actor, pk=actor_id)
         actor.delete()
         return redirect(reverse('actor-list'))
+    

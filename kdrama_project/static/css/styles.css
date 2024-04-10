@@ -13,10 +13,9 @@ body {
 
 .footer {
     position: absolute;
-    padding: 10px 10px 10px 10px;
-    left:0px;
-    right:0px;
-    bottom:0px;
+    margin-top: 50px;
+    width: 100%;
+    bottom: 0px;
     height: 50px;
     background-image: linear-gradient(to right, #992592, #A73A64);
 
@@ -52,6 +51,17 @@ body {
 .form-button:hover {
     font-weight: bold;
     background-image: linear-gradient(to right, #BB47B4, #DA6D97);
+    height: 40px;
+    width: 170px;
+    border: none;
+    font-size:18px;
+}
+
+.form-button:disabled {
+    font-weight: bold;
+    background-image: none;
+    background-color: gray;
+    color:black;
     height: 40px;
     width: 170px;
     border: none;

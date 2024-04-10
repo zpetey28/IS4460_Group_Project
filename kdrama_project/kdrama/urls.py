@@ -1,14 +1,16 @@
-from django.contrib import admin
 from django.urls import path
-from django.contrib.auth.views import LoginView
-from .views import MovieListView, MovieDetailView, MovieCreateView, MovieUpdateView, MovieDeleteView, MovieListCreateAPIView, MovieRetrieveUpdateDestroyAPIView, ActorListView, ActorCreateView, ActorDeleteView, ActorUpdateView
+from .views import (MovieListView, MovieDetailView, MovieCreateView, 
+                    MovieUpdateView, MovieDeleteView, MovieListCreateAPIView, 
+                    MovieRetrieveUpdateDestroyAPIView, ActorListView, ActorCreateView, 
+                    ActorDeleteView, ActorUpdateView, RegisterView)
 
 
 urlpatterns = [
+
     path('list/', MovieListView.as_view(), name='movie-list'),
     path('details/<int:kdrama_id>/', MovieDetailView.as_view(), name='movie-details'),
     path('details/', MovieDetailView.as_view(), name='movie-details'),
-
+    
     path('add/', MovieCreateView.as_view(), name='movie-add'),
 
     path('update/<int:kdrama_id>/', MovieUpdateView.as_view(), name='movie-update'),

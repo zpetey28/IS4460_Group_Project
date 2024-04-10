@@ -18,9 +18,12 @@ Including another URLconf
 # MovieApp/urls.py
 from django.urls import path, include
 from django.contrib import admin
+from .views import RegisterView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('kdrama/', include('kdrama.urls')),
     path('accounts/',include('django.contrib.auth.urls')),
+
+    path('accounts/register/', RegisterView.as_view(), name='account-register'),
 ]

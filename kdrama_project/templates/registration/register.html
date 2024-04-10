@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+        <style> 
+
+            body {
+                min-height: 100vh;
+                position: relative;
+            }
+
+            body::after {
+                content: '';
+                display: block;
+                height: 50px;
+            }
+
+            .container {
+                position: relative;
+                width: 500px;
+                height:fit-content;
+                left: 50%;
+                transform: translateX(-50%);
+                top: 40px;
+                margin-bottom: 100px;
+                
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                padding: 90px;
+            }
+
+            h1 {
+                position: absolute;
+                top: 20px;
+                left: 25%;
+                right: 25%;
+                width: 50%;
+            }
+
+            #form-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: start;
+                width: 250px;
+
+                margin-left:125px;
+                margin-right:125px;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            input {
+                width:100%;
+                height: 20px;
+                border-color: white;
+                outline: none;
+            }
+
+            input:focus {
+                width:100%;
+                height: 20px;
+                border-color: #AA36A3;
+                outline: #AA36A3;
+            }
+
+            ul {
+                list-style-type: none;
+                padding: 0px;
+                margin: 0px;
+            }
+
+            .form-button {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Create Account</h1>
+            <div id="form-content">
+                <form method="post">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button type="submit" class="form-button" id="submit-button">Register</button>
+                </form>
+            </div>
+        </div>
+        
+
+        <script>
+            document.getElementById("submit-button").disabled = true;
+            document.getElementById('id_password2').addEventListener('keyup', function() {
+                checkPasswordsEqual();
+            });
+
+            function checkPasswordsEqual() {
+                const PASS1 = document.getElementById("id_password1");
+                const PASS2 = document.getElementById("id_password2");
+                const SUMBIT_BUTTON = document.getElementById("submit-button");
+
+                if (PASS1.value != PASS2.value) {
+                    SUMBIT_BUTTON.disabled = true;
+                    PASS2.setCustomValidity('Passwords do not match');
+                    PASS2.reportValidity()
+                }
+                if (PASS1.value === PASS2.value && isValid(PASS2.value)) {
+                    SUMBIT_BUTTON.disabled = false;
+                    PASS2.setCustomValidity('');
+                    PASS2.reportValidity()
+                }
+            }
+
+            function isValid(password) {
+                if(password === '') {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        </script>
+
+        <div class="footer">
+            <h4 id="footer-title">K-Drama App</h4>
+            <h4 id="footer-info">© Group 12 Isaac Ahlborn, Daniel Myers, Zack Peterson, Stone Pollock, Matt Young</h4>
+        </div>
+    </body>
+   
+</html>
