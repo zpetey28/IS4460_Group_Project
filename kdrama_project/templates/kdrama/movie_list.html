@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
     <title>K-drama List</title>
@@ -75,10 +76,37 @@
             right:10%;
             top: 19px;
         }
-        
+
     </style>
 </head>
 <body>
+    <!-- Navbar -->
+	<nav class="navbar navbar-light">
+        <div class="heading">
+          <div class="navbar-header">
+             <a class="text-white navbar-brand" id="home-link" href="{% url 'movie-list' %}">K-Dramas</a>
+          </div>
+
+          <p id="greeting">Hello, {{user.username}}</h2>
+
+          <div class="dropdown" id="text-white">
+            <span>Profile</span>
+            <div class="dropdown-content">
+                <div id="dropdown-item">
+                    <form action="{% url 'logout' %}" method="post">
+                        {%csrf_token%}
+                        <button type="submit" id="logout-button">Logout</button>
+                    </form>
+                </div>
+
+                <a href="{%url 'movie-add'%}" id="dropdown-link"><div id="dropdown-item">
+                    Add K-Drama
+                </div></a>
+            </div>
+          </div>
+        </div>
+    </nav>
+
     <div id="kdrama-list" class="container-fluid">
         
         <h2>What to Watch</h2>

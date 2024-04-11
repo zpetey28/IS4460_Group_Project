@@ -69,3 +69,91 @@ body {
     border: none;
     font-size:18px;
 }
+
+.navbar {
+    background-image: linear-gradient(to right, #992592, #A73A64);
+    border-radius: 0px;
+    border: none;
+}
+
+
+#home-link {
+    color: white;
+    font-weight: 900;
+}
+
+#home-link:hover {
+    color: #333333;
+    font-weight: 900;
+    background-color: white;
+}
+
+.dropdown {
+    display:inline-block;
+    color: white;
+    text-align: center;
+    line-height: 50px;
+    height: 50px;
+    width: 160px;
+    position: absolute;
+    right:10px;
+    font-size: 18px;
+}
+
+.dropdown:hover {
+    color: #333333;
+    background-color: white;
+}
+
+.dropdown-content {
+    display:none;
+    position: absolute;
+    right: 0px;
+    width: 160px;
+    z-index: 1;
+    background-image: linear-gradient(to right, #992592, #A73A64);
+}
+
+.dropdown:hover .dropdown-content{
+    display:block;
+}
+
+#greeting {
+    font-weight: 900;
+    font-size: 18px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+
+#logout-button {
+    background-color: rgba(0,0,0,0);
+    color:white;
+    border:none;
+    width:100%;
+    height:50px;
+}
+
+#logout-button:hover {
+    background-color: white;
+    color:#333333;
+}
+
+#dropdown-item {
+    background-color: rgba(0,0,0,0);
+    color:white;
+    border:none;
+    width:100%;
+    height:50px;
+}
+
+#dropdown-item:hover {
+    background-color: white;
+    color:#333333;
+}
+
+#dropdown-link:hover {
+    text-decoration: none;
+}
