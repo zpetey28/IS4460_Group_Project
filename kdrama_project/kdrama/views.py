@@ -23,7 +23,12 @@ class MovieListView(LoginRequiredMixin, View):
 
     def get(self, request):
         kdramas = Movie.objects.all()
-        context = {'kdramas':kdramas}
+
+        kdrama_group = []
+        for i in range(0, len(kdramas), 5):
+            kdrama_group.append(kdramas[i:i + 5])
+
+        context = {'kdramas':kdramas, "kdrama_grouping":kdrama_group}
 
         return render(request = request, template_name=self.template_name, context=context)
 

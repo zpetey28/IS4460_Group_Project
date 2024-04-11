@@ -20,6 +20,8 @@ body {
     background-image: linear-gradient(to right, #992592, #A73A64);
 
     color:white;
+    font-family: Courier, monospace;
+    font-weight: bolder;
 }
 
 #footer-title {

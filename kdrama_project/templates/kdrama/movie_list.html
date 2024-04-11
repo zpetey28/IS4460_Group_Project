@@ -1,51 +1,131 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% load static %}
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
     <title>K-drama List</title>
     <style>
-        body {
-            background-color: #333;
-            color: #fff;
-            font-family: Arial, sans-serif;
+        #kdrama-array {
+            display: inline-block;
         }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
+        #kdrama-pane {
+            width: 14vw;
+            height: 40vh;
+            float:right;
+            margin-left: 5px;
+            margin-right: 5px;
         }
         img {
-            max-width: 100%;
-            height: auto;
+            width: 14vw;
+            height: 40vh;
+            position: relative;
+            left:0;
+            top:0;
+            z-index: 1;
         }
+        #kdrama-info {
+            position: relative;
+            top:-100%;
+            z-index: 2;
+            height:100%;
+            width: 100%;
+            color: rgba(255, 255, 255, 0);
+        }
+
+        #kdrama-info:hover {
+            position: relative;
+            top:-100%;
+            z-index: 2;
+            color: rgba(255, 255, 255, 255);
+            background-image: linear-gradient(to bottom, black, rgba(0,0,0,0));
+
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #desc {
+            font-size: 12px;
+        }
+
+        h2 {
+            color:white;
+
+        }
+
+        #bootstrap-override {
+            font-family: Courier, monospace;
+            font-weight: bolder;
+            font-size: 16px;
+        }
+
+        #footer-title {
+            position: absolute;
+            left:10%;
+            top: 19px;
+        }
+
+        #footer-info {
+            position: absolute;
+            right:10%;
+            top: 19px;
+        }
+        
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>K-drama list</h1>
-        <p>Hello, {{ user.username }}!</p>
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-        </form>
-        <a href="{% url 'movie-add' %}">Add Movie</a>
-        <ul>
-            {% for kdrama in kdramas %}
-                <li>
-                    <img src="{{ kdrama.image_url }}" alt="{{ kdrama.title }}">
-                    <p>Title: {{kdrama.title}}</p>
-                    <p>Description: {{ kdrama.description }}</p>
-                    <p>Director: {{ kdrama.director }}</p>
-                    <a href="{% url 'movie-details' kdrama.movie_id %}">{{ kdrama.title }} </a>
-                    <a href="{% url 'movie-update' kdrama.movie_id %}">Edit</a>
-                    <a href="{% url 'movie-delete' kdrama.movie_id %}">Delete</a>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                </li>
-            {% empty %}
-                <li>No kdramas yet.</li>
-            {% endfor %}
-        </ul>
+    <div id="kdrama-list" class="container-fluid">
+        
+        <h2>What to Watch</h2>
+        <div id="kdrama-carousel" class="carousel slide text-center" data-ride="carousel" data-interval="false">
+    
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                {% for kdrama_group in kdrama_grouping %}
+                    {% if forloop.first %}
+                    <div class = "item active">
+                    {% else %}
+                    <div class = "item">
+                    {% endif %}
+
+                        <div id="kdrama-array">
+                            {% for kdrama in kdrama_group %}
+                                <a href="{% url 'movie-details' kdrama.movie_id %}">
+                                    <div id="kdrama-pane">
+                                        <img src="{{kdrama.image_url}}" alt="{{kdrama.title}}">
+                                        <div id="kdrama-info">
+                                            <p>{{kdrama.title}}</p>
+
+                                            <p id="desc">{{kdrama.description}}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#kdrama-carousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#kdrama-carousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+        </div>
+
+    </div>
+    <div class="footer" id="bootstrap-override">
+        <p id="footer-title">K-Drama App</h4>
+        <p id="footer-info">© Group 12 Isaac Ahlborn, Daniel Myers, Zack Peterson, Stone Pollock, Matt Young</h4>
     </div>
 </body>
 </html>
