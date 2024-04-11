@@ -7,21 +7,77 @@
             background-color: #333;
             color: #fff;
             font-family: Arial, sans-serif;
+            margin: 0; /* No default margins */
+            padding: 0; /* No default paddings */
+        }
+        .top-banner {
+            background-color: rgb(159,45,129); /* Background color for the banner */
+            color: #fff; /* White text color */
+            padding: 10px 0; /* Some padding to give space above and below the text */
+            text-align: center; /* Center the text horizontally */
+            position: relative; /* For absolute positioning of the back link */
         }
         .container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: auto; /* Center the container */
+            padding: 20px 0; /* Padding at the top and bottom */
+            text-align: center; /* Center text and inline elements */
         }
-        img {
+        .movie-image {
+            width: 300px; /* Fixed width for movie images */
+            height: 450px; /* Fixed height for movie images */
+            object-fit: cover; /* Cover the area without stretching */
+            display: block;
+            margin: 20px auto; /* Center the image with margin */
+        }
+        iframe {
             max-width: 100%;
-            height: auto;
+            max-height: 315px;
+            display: block;
+            margin: 20px auto; /* Center the iframe */
         }
+        .back-link {
+            position: absolute;
+            left: 50px; /* Positioned to the left inside the banner */
+            top: 25px; /* Positioned to the top inside the banner */
+            font-size: 18px;
+        }
+        .back-button {
+            background-color: black; /* Bootstrap primary button color */
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: white; /* Darker shade for hover effect */
+            text-decoration: none; /* Ensures the text decoration is removed on hover */
+            color: black;
+        }
+    
+        .container a {
+            color: #fff; /* Link color */
+            text-decoration: underline; /* Links underlined */
+        }
+        /* Additional styles if needed */
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="top-banner">
+        <div class="back-link">
+            <a href="{% url 'movie-list' %}" class="back-button">&lt; Back to Movies</a> 
+        </div>
         <h1>{{ kdrama.title }}</h1>
-        <img src="{{ kdrama.image_url }}" alt="{{ kdrama.title }}">
+    </div>
+    <div class="container">
+        <img src="{{ kdrama.image_url }}" alt="{{ kdrama.title }}" class="movie-image">
         <p>Description: {{ kdrama.description }}</p>
         <p>Director: {{ kdrama.director }}</p>
         <p>Release Year: {{ kdrama.release_year }}</p>
@@ -30,7 +86,7 @@
         <p>Rating: {{ kdrama.rating }}</p>
         <p>Genre: {{ kdrama.genre }}</p>
         <a href="{% url 'movie-actors-list' kdrama.movie_id %}">View Actors</a>
-        <a href="{% url 'movie-awards-list' movie_id=movie_id %}">View Awards</a>
+        <a href="{% url 'movie-awards-list' movie_id=kdrama.movie_id %}">View Awards</a>
         {% if kdrama.youtube_url %}
             <iframe width="560" height="315" src="{{ kdrama.youtube_url }}" frameborder="0" allowfullscreen></iframe>
             <p><a href="{{ kdrama.youtube_url }}">Watch on YouTube</a></p>
