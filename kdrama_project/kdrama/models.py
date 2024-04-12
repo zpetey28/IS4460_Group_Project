@@ -1,4 +1,4 @@
-
+import sys
 from django.db import models
 
 class Movie(models.Model):
@@ -38,7 +38,7 @@ class Actor(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField()
-
+    image_url = models.URLField(blank=True, default="https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg", max_length=sys.maxsize)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

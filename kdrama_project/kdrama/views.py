@@ -134,28 +134,17 @@ class MovieDeleteView(LoginRequiredMixin, View):
             
         return redirect(reverse('movie-list'))
     
-'''class ActorListView(View):
-    template_name = 'actors/actor-list.html'
-
-    def get(self, request, **kwargs):
-        movie_id = kwargs.get('movie_id')
-        actors = Actor.objects.all()
-        context = {'actors': actors}
-        return render(request, self.template_name, context)'''
 class ActorListView(View):
     template_name = 'actors/actor_list.html'
 
-    def get(self, request, movie_id=None):
-        if movie_id is not None:
-            movie = get_object_or_404(Movie, pk=movie_id)
-            actors = movie.actors.all()
-            context = {'actors': actors, 'movie': movie}
-            return render(request, self.template_name, context)
-        else:
-            # Handle the case where movie_id is not provided
-            return HttpResponse("Movie ID is required.")
+    def get(self, request):
+        actors = Actor.objects.all()
 
-'''class ActorCreateView(View):
+        context = {'actors':actors}
+
+        return render(request, self.template_name, context)
+
+class ActorCreateView(View):
     template_name = 'actors/actor_form.html'
     action = "Add"
 
@@ -168,26 +157,25 @@ class ActorListView(View):
         actor_form = ActorForm(request.POST)
         if actor_form.is_valid():
             actor_form.save()
+
             return redirect(reverse('actor-list'))
+        
         context = {'form': actor_form, 'action': self.action}
-        return render(request, template_name=self.template_name, context=context)'''
-class ActorCreateView(View):
-    template_name = 'actors/actor_form.html'
-    action = "Add"
 
-    def get(self, request, movie_id):
-        actor_form = ActorForm()
-        context = {'form': actor_form, 'action': self.action, 'movie_id': movie_id}
         return render(request, template_name=self.template_name, context=context)
 
-    def post(self, request, movie_id):
-        actor_form = ActorForm(request.POST)
-        if actor_form.is_valid():
-            actor_form.save()
-            # Redirect to the movie actors list page
-            return redirect(reverse('movie-actors-list', kwargs={'movie_id': movie_id}))
-        context = {'form': actor_form, 'action': self.action, 'movie_id': movie_id}
-        return render(request, template_name=self.template_name, context=context)
+class ActorDetailView(View):
+    template_name = 'actors/actor_details.html'
+
+    def get(self, request, actor_id=None):
+        if actor_id:
+            actor = Actor.objects.get(actor_id=actor_id)
+        else:
+            actor = Actor()
+
+        context = {'actor':actor}
+
+        return render(request, self.template_name, context=context)
 
 class ActorUpdateView(View):
     template_name = 'actors/actor_form.html'

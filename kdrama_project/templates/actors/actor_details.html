@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     {% load static %}
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
-    <title>Actors</title>
-
+    <title>{{actor}} Details</title>
     <style>
+
         body {
             min-height: 100vh;
             position: relative;
@@ -31,65 +31,76 @@
             margin-bottom: 50px;
             background-color: #FFE6E6DF;
             border-image: linear-gradient(to right, #9b278edf, #a63869DF) 1;
-            padding-top: 50px;
+            padding-right: 25vw;
+
+            min-height: 60vh;
         }
 
         #remove-spacing {
             margin-bottom: 0;
         }
 
-        img {
-            height: 20vh;
-            width: 15vh;
+        #title-text {
+            font-weight: 900;
+            font-size: 50px;
+        }
 
-            margin-left: 50%;
-            transform: translateX(-50%);
-
+        .movie-image {
+            position:absolute;
+            right:70px;
+            top: 40px;
+            height:40vh;
+            width: 28vh;
             border-width:3px; 
             border-style: solid;
             border-image: linear-gradient(to right, #AA36A3, #B84B75) 1;
         }
 
-        #actor-array {
+        #description {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        hr {
+            border-color: #333333;
+        }
+
+        #kdrama-descriptions {
             display: flex;
             justify-content: flex-start;
             flex-wrap: wrap;
             width: 100%;
-            margin-bottom: 50px;
         }
 
-        #actor-pane {
-            width: 100%;
-            height: 200px;
+        .description-item {
+            width: 33%;
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            font-size: 18px;
+            height: 80px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
 
-            display:flex;
-            flex-direction: column;
-            justify-content: center;
-            align-content: center;
-            text-align: center;
+        span {
+            transform: translateY(-50%);
         }
 
         #button-styles {
             text-decoration: none;
-            color:#333333;
-            width: 25%;
-            margin-bottom: 50px;
         }
 
         #button-styles:hover {
             text-decoration: none;
         }
 
-        #button-styles:hover img {
-            text-decoration: none;
-            border-image: linear-gradient(to right, #CC58C5, #DA6D97) 1;
-        }
-        
-
-        #title {
-            font-weight: 700;
-            margin-left: 40px;
-            margin-bottom: 40px;
+        #controls {
+            position:absolute;
+            bottom:13px;
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
         }
     </style>
 </head>
@@ -113,12 +124,8 @@
                     </form>
                 </div>
 
-                <a href="{%url 'actor-list'%}" id="dropdown-link"><div id="dropdown-item">
+                <a href="{%url 'actor-list' %}" id="dropdown-link"><div id="dropdown-item">
                     Actor List
-                </div></a>
-
-                <a href="{%url 'actor-add'%}" id="dropdown-link"><div id="dropdown-item">
-                    Add Actor
                 </div></a>
 
                 <a href="{%url 'movie-add'%}" id="dropdown-link"><div id="dropdown-item">
@@ -130,17 +137,22 @@
     </nav>
 
     <div class="container">
-        <h1 id="title">Actors</h1>
-        <div id="actor-array">
-            {% for actor in actors %}
-                <a href="{% url 'actor-details' actor.actor_id %}" id="button-styles">
-                <div id="actor-pane" >
-                    <img src="{{ actor.image_url }}" alt="{{ actor }}">
-                    {{ actor.first_name }} {{ actor.last_name }}
-                </div>
-                </a>
-            {% endfor %}
+
+        <h1 id="title-text">{{actor}}</h1>
+        <hr>
+        <img src="{{ actor.image_url }}" alt="{{ actor }}" class="movie-image">
+        <p id="description">Born: {{ actor.date_of_birth }}</p>
+        <hr>
+
+        <div id="controls">
+            <a href="{% url 'actor-update' actor.actor_id %}" id="button-styles"><div class="button">
+                Edit
+            </div></a>
+            <a href="{% url 'actor-delete' actor.actor_id %}" id="button-styles"><div class="button">
+                Delete
+            </div></a>
         </div>
+
     </div>
 
     <div class="footer" id="bootstrap-override">
@@ -149,4 +161,3 @@
     </div>
 </body>
 </html>
-

@@ -9,7 +9,8 @@ class MovieForm(forms.ModelForm):
 class ActorForm(forms.ModelForm):
     class Meta:
         model = Actor
-        fields = ['first_name', 'last_name', 'date_of_birth']
+        fields = "__all__"
+
 class AwardForm(forms.ModelForm):
     class Meta:
         model = Award
