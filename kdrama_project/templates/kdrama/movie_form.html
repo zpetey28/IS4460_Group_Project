@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
-    <title>Add/Update K-Drama</title>
+    <title>{{action}} K-Drama</title>
     <style>
 
         .container {
@@ -84,10 +84,9 @@
         document.getElementById("id_youtube_url").placeholder = "Enter YouTube URL (string)";
     </script>
 
-    <div class="footer">
-
-        <h4 id="footer-title">K-Drama App</h4>
-        <h4 id="footer-info">© Group 12 Isaac Ahlborn, Daniel Myers, Zack Peterson, Stone Pollock, Matt Young</h4>
+    <div class="footer" id="bootstrap-override">
+        <p id="footer-title">K-Drama App</h4>
+        <p id="footer-info">© Group 12 Isaac Ahlborn, Daniel Myers, Zack Peterson, Stone Pollock, Matt Young</h4>
     </div>
 </body>
 </html>

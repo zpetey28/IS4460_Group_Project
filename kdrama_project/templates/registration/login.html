@@ -3,6 +3,7 @@
 <html>
 <head>
     {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
     <title>Kdrama Login</title>
@@ -44,40 +45,24 @@
             font-weight: bold;
             background-image: linear-gradient(to right, #AA36A3, #C95C86);
             height: 40px;
-            width: 40%;
+            width: 180px;
             border: none;
             font-size:18px;
 
             position:absolute;
-            right:30%;
-            left: 30%;
+            left: 50%;
+            transform: translateX(-50%);
             bottom: 30px;
 
             display:flex;
             text-align: center;
             justify-content: center;
             align-items: center;
+            margin:0;
         }
 
         .button:hover {
-            color: black;
-            font-weight: bold;
             background-image: linear-gradient(to right, #BB47B4, #DA6D97);
-            
-            height: 40px;
-            width: 40%;
-            border: none;
-            font-size:18px;
-
-            position:absolute;
-            right:30%;
-            left: 30%;
-            bottom: 30px;
-
-            display:flex;
-            text-align: center;
-            justify-content: center;
-            align-items: center;
         }
 
         #account-text {
@@ -149,7 +134,7 @@
         <h2 id="account-text">Get started</h2>
         <a href="{% url 'account-register' %}">
             <div class="button">
-                <p>Create Account</p>
+                Create Account
             </div>
         </a>
     </div>
@@ -173,9 +158,9 @@
         </div>
     </div>
 
-    <div class="footer">
-        <h4 id="footer-title">K-Drama App</h4>
-        <h4 id="footer-info">© Group 12 Isaac Ahlborn, Daniel Myers, Zack Peterson, Stone Pollock, Matt Young</h4>
+    <div class="footer" id="bootstrap-override">
+        <p id="footer-title">K-Drama App</h4>
+        <p id="footer-info">© Group 12 Isaac Ahlborn, Daniel Myers, Zack Peterson, Stone Pollock, Matt Young</h4>
     </div>
 </body>
 </html>

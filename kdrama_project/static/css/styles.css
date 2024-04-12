@@ -24,14 +24,22 @@ body {
     font-weight: bolder;
 }
 
+#bootstrap-override {
+    font-family: Courier, monospace;
+    font-weight: bolder;
+    font-size: 16px;
+}
+
 #footer-title {
     position: absolute;
     left:10%;
+    top: 19px;
 }
 
 #footer-info {
     position: absolute;
     right:10%;
+    top: 19px;
 }
 
 .container {

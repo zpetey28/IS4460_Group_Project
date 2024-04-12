@@ -1,81 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% load static %}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
     <title>K-Drama Details</title>
     <style>
         body {
-            background-color: #333;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            margin: 0; /* No default margins */
-            padding: 0; /* No default paddings */
-        }
-        .top-banner {
-            background-color: rgb(159,45,129); /* Background color for the banner */
-            color: #fff; /* White text color */
-            padding: 10px 0; /* Some padding to give space above and below the text */
-            text-align: center; /* Center the text horizontally */
-            position: relative; /* For absolute positioning of the back link */
-        }
+                min-height: 100vh;
+                position: relative;
+            }
+
+            body::after {
+                content: '';
+                display: block;
+                height: 50px;
+            }
         .container {
-            max-width: 600px;
-            margin: auto; /* Center the container */
-            padding: 20px 0; /* Padding at the top and bottom */
-            text-align: center; /* Center text and inline elements */
-        }
-        .movie-image {
-            width: 300px; /* Fixed width for movie images */
-            height: 450px; /* Fixed height for movie images */
-            object-fit: cover; /* Cover the area without stretching */
-            display: block;
-            margin: 20px auto; /* Center the image with margin */
-        }
-        iframe {
-            max-width: 100%;
-            max-height: 315px;
-            display: block;
-            margin: 20px auto; /* Center the iframe */
-        }
-        .back-link {
+            margin-top: 0px;
+            width: 80vw;
+            border-top: none;
+
             position: absolute;
-            left: 50px; /* Positioned to the left inside the banner */
-            top: 25px; /* Positioned to the top inside the banner */
-            font-size: 18px;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            top:50px;
         }
-        .back-button {
-            background-color: black; /* Bootstrap primary button color */
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border: none;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-        .back-button:hover {
-            background-color: white; /* Darker shade for hover effect */
-            text-decoration: none; /* Ensures the text decoration is removed on hover */
-            color: black;
-        }
-    
-        .container a {
-            color: #fff; /* Link color */
-            text-decoration: underline; /* Links underlined */
-        }
-        /* Additional styles if needed */
     </style>
 </head>
 <body>
-    <div class="top-banner">
-        <div class="back-link">
-            <a href="{% url 'movie-list' %}" class="back-button">&lt; Back to Movies</a> 
+    <!-- Navbar -->
+	<nav class="navbar navbar-light">
+        <div class="heading">
+          <div class="navbar-header">
+             <a class="text-white navbar-brand" id="home-link" href="{% url 'movie-list' %}">K-Dramas</a>
+          </div>
+
+          <p id="greeting">Hello, {{user.username}}</h2>
+
+          <div class="dropdown" id="text-white">
+            <span>Profile</span>
+            <div class="dropdown-content">
+                <div id="dropdown-item">
+                    <form action="{% url 'logout' %}" method="post">
+                        {%csrf_token%}
+                        <button type="submit" id="logout-button">Logout</button>
+                    </form>
+                </div>
+
+                <a href="{%url 'movie-add'%}" id="dropdown-link"><div id="dropdown-item">
+                    Add K-Drama
+                </div></a>
+            </div>
+          </div>
         </div>
-        <h1>{{ kdrama.title }}</h1>
-    </div>
+    </nav>
+
     <div class="container">
         <img src="{{ kdrama.image_url }}" alt="{{ kdrama.title }}" class="movie-image">
         <p>Description: {{ kdrama.description }}</p>
@@ -93,6 +75,11 @@
         {% endif %}
         <a href="{% url 'movie-update' kdrama.movie_id %}">Edit</a>
         <a href="{% url 'movie-delete' kdrama.movie_id %}">Delete</a>
+    </div>
+
+    <div class="footer" id="bootstrap-override">
+        <p id="footer-title">K-Drama App</h4>
+        <p id="footer-info">© Group 12 Isaac Ahlborn, Daniel Myers, Zack Peterson, Stone Pollock, Matt Young</h4>
     </div>
 </body>
 </html>
