@@ -15,7 +15,7 @@ body {
     position: absolute;
     margin-top: 50px;
     width: 100%;
-    bottom: 0px;
+    bottom:0;
     height: 50px;
     background-image: linear-gradient(to right, #992592, #A73A64);
 
@@ -163,5 +163,27 @@ body {
 }
 
 #dropdown-link:hover {
+    text-decoration: none;
+}
+
+.button {
+    color: black;
+    font-weight: bold;
+    background-image: linear-gradient(to right, #AA36A3, #C95C86);
+    height: 40px;
+    width: 180px;
+    border: none;
+    font-size:18px;
+
+    display:flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin:0;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-image: linear-gradient(to right, #BB47B4, #DA6D97);
     text-decoration: none;
 }

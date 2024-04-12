@@ -8,31 +8,101 @@
 
     <title>K-Drama Details</title>
     <style>
-        body {
-                min-height: 100vh;
-                position: relative;
-            }
 
-            body::after {
-                content: '';
-                display: block;
-                height: 50px;
-            }
+        body {
+            min-height: 100vh;
+            position: relative;
+            top:0;
+        }
+
+        body::after {
+            content: '';
+            display: block;
+            height: 50px;
+        }
+
         .container {
             margin-top: 0px;
             width: 80vw;
             border-top: none;
 
-            position: absolute;
             margin-left: 50%;
             transform: translateX(-50%);
-            top:50px;
+            margin-bottom: 50px;
+            background-color: #FFE6E6DF;
+            border-image: linear-gradient(to right, #9b278edf, #a63869DF) 1;
+            padding-right: 25vw;
+        }
+
+        #remove-spacing {
+            margin-bottom: 0;
+        }
+
+        #title-text {
+            font-weight: 900;
+            font-size: 50px;
+        }
+
+        .movie-image {
+            position:absolute;
+            right:70px;
+            top: 40px;
+            height:40vh;
+            width: 28vh;
+            border-width:3px; 
+            border-style: solid;
+            border-image: linear-gradient(to right, #AA36A3, #B84B75) 1;
+        }
+
+        #description {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        hr {
+            border-color: #333333;
+        }
+
+        #kdrama-descriptions {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .description-item {
+            width: 33%;
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            font-size: 18px;
+            height: 80px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        span {
+            transform: translateY(-50%);
+        }
+
+        #button-styles {
+            text-decoration: none;
+        }
+
+        #button-styles:hover {
+            text-decoration: none;
+        }
+
+        #controls {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
         }
     </style>
 </head>
 <body>
     <!-- Navbar -->
-	<nav class="navbar navbar-light">
+	<nav class="navbar navbar-light" id="remove-spacing">
         <div class="heading">
           <div class="navbar-header">
              <a class="text-white navbar-brand" id="home-link" href="{% url 'movie-list' %}">K-Dramas</a>
@@ -59,22 +129,46 @@
     </nav>
 
     <div class="container">
+        <h1 id="title-text">{{kdrama.title}}</h1>
+        <hr>
         <img src="{{ kdrama.image_url }}" alt="{{ kdrama.title }}" class="movie-image">
-        <p>Description: {{ kdrama.description }}</p>
-        <p>Director: {{ kdrama.director }}</p>
-        <p>Release Year: {{ kdrama.release_year }}</p>
-        <p>Budget: {{ kdrama.budget }}</p>
-        <p>Runtime: {{ kdrama.runtime }}</p>
-        <p>Rating: {{ kdrama.rating }}</p>
-        <p>Genre: {{ kdrama.genre }}</p>
-        <a href="{% url 'movie-actors-list' kdrama.movie_id %}">View Actors</a>
-        <a href="{% url 'movie-awards-list' movie_id=kdrama.movie_id %}">View Awards</a>
+        <p id="description">{{ kdrama.description }}</p>
+        <hr>
+        <div id="kdrama-descriptions">
+            <div class="description-item">
+                <p>Director: {{ kdrama.director }}</p>
+            </div>
+            <div class="description-item">
+                <p>Release Year: {{ kdrama.release_year }}</p>
+            </div>
+            <div class="description-item">
+                <p>Runtime: {{ kdrama.runtime }}</p>
+            </div>
+            <div class="description-item">
+                <span class="glyphicon glyphicon-star"></span>
+                <p>{{ kdrama.rating }}</p>
+            </div>
+            <div class="description-item">
+                <p>Genres: {{ kdrama.genre }}</p>
+            </div>
+        </div>
+        <hr>
         {% if kdrama.youtube_url %}
             <iframe width="560" height="315" src="{{ kdrama.youtube_url }}" frameborder="0" allowfullscreen></iframe>
-            <p><a href="{{ kdrama.youtube_url }}">Watch on YouTube</a></p>
+            <hr>
         {% endif %}
-        <a href="{% url 'movie-update' kdrama.movie_id %}">Edit</a>
-        <a href="{% url 'movie-delete' kdrama.movie_id %}">Delete</a>
+
+        <div id="controls">
+            <a href="{% url 'movie-update' kdrama.movie_id %}" id="button-styles"><div class="button">
+                Edit
+            </div></a>
+            <a href="{% url 'movie-delete' kdrama.movie_id %}" id="button-styles"><div class="button">
+                Delete
+            </div></a>
+        </div>
+
+        <a href="{% url 'movie-actors-list' kdrama.movie_id %}">View Actors</a>
+        <a href="{% url 'movie-awards-list' movie_id=kdrama.movie_id %}">View Awards</a>
     </div>
 
     <div class="footer" id="bootstrap-override">

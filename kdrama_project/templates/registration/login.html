@@ -126,6 +126,10 @@
             bottom: 40px;
         }
 
+        #title {
+            font-weight: 550;
+        }
+
     </style>
 </head>
 <body>
@@ -140,7 +144,7 @@
     </div>
 
     <div class="container">
-        <h1>Log In</h1>
+        <h1 id="title">Log In</h1>
         <div id="form-container">
             <form method="post">
                 {% csrf_token %}
