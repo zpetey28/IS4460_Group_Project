@@ -2,90 +2,56 @@
 <html>
 <head>
     {% load static %}
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
-    <title>Add Actor</title>
+    <title>{{action}} K-Drama</title>
     <style>
-        body {
-            min-height: 100vh;
-            position: relative;
-            top:0;
-        }
-
-        body::after {
-            content: '';
-            display: block;
-            height: 50px;
-        }
 
         .container {
             width: 600px;
-            height:fit-content;
+            height: 300px;
+            margin-top: 50px;
             margin-left: 50%;
             transform: translateX(-50%);
-            top: 10px;
-            margin-top: 100px;
-            margin-bottom: 50px;
-            
+            padding-top: 35px;
+
+
             display: flex;
             flex-direction: column;
             justify-content: center;
             text-align: center;
-            padding: 90px;
         }
 
-        #title {
+        #title-display {
             position: absolute;
             top: 5px;
-            right: 25%;
-            left: 25%;
-            width: 50%;
-            font-weight: 700;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 25px;
+
+            font-weight: bolder;
         }
 
         .form-button {
             position: absolute;
-            bottom: 20px;
-            left: 50%;
+            left:50%;
             transform: translateX(-50%);
+            bottom: 15px;
         }
 
-        #form-content {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                text-align: start;
-                width: 300px;
-                font-weight: bold;
+        #id_actor_selection {
+            width:200px;
+            height: 30px;
+            border-color: white;
+            outline: none;
+        }
 
-                margin-left:60px;
-                margin-right:60px;
-            }
-
-            label {
-                display: block;
-                margin-bottom: 5px;
-            }
-
-            input {
-                width:100%;
-                height: 30px;
-                border-color: white;
-                outline: none;
-            }
-
-            input:focus {
-                border-color: #AA36A3;
-                outline: #AA36A3;
-            }
-
-            ul {
-                list-style-type: none;
-                padding: 0px;
-                margin: 0px;
-            }
-
+        #id_actor_selection:active {
+            border-color: #AA36A3;
+            outline: #AA36A3;
+        }
     </style>
 </head>
 <body>
@@ -125,14 +91,12 @@
     </nav>
     
     <div class="container">
-        <h1 id="title">{{ action }} Actor</h1>
-        <div id="form-content">
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="form-button">{{ action }}</button>
-            </form>
-        </div>
+        <h1 id="title-display">Add Actor to {{kdrama.title}} </h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="form-button">Add Actor</button>
+        </form>
     </div>
 
     <div class="footer" id="bootstrap-override">

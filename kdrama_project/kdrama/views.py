@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .models import Movie
-from .forms import MovieForm
+from .forms import MovieForm, AddActorForm
 from .serializers import MovieSerializer
 from rest_framework import generics
 from django.views import View
@@ -42,6 +42,40 @@ class MovieDetailView(LoginRequiredMixin, View):
             kdrama = Movie()
         
         context = {'kdrama':kdrama, 'movie_id':kdrama_id}
+
+        return render(request = request, template_name=self.template_name, context=context)
+    
+class MovieAddActorView(LoginRequiredMixin, View):
+    template_name = 'kdrama/movie_add_actor.html'
+
+    def get(self, request, kdrama_id=None):
+        if kdrama_id:
+            kdrama = Movie.objects.get(movie_id=kdrama_id)
+        else:
+            kdrama = Movie()
+
+        form = AddActorForm()
+        
+        context = {'kdrama':kdrama, 'form':form}
+
+        return render(request = request, template_name=self.template_name, context=context)
+    
+    def post(self, request, kdrama_id=None):
+        if kdrama_id:
+            kdrama = Movie.objects.get(movie_id=kdrama_id)
+        else:
+            kdrama = Movie()
+
+        kdrama_form = AddActorForm(request.POST, instance=kdrama)
+        
+
+        if kdrama_form.is_valid():
+            
+            kdrama.actors.add(kdrama_form.cleaned_data.get('actor_selection'))
+            kdrama.save()
+            return redirect(reverse('movie-details') + str(kdrama_id))
+        
+        context = {'kdrama':kdrama, 'form':kdrama_form}
 
         return render(request = request, template_name=self.template_name, context=context)
 

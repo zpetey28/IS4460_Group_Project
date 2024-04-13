@@ -9,35 +9,90 @@
     <title>{{action}} K-Drama</title>
     <style>
 
-        .container {
-            width: 40%;
-            height: 500px;
-            margin-top: 50px;
-            margin-left: 30%;
-            margin-right: 30%;
-            padding-top: 35px;
+            body {
+                min-height: 100vh;
+                position: relative;
+                top:0;
+            }
 
+            body::after {
+                content: '';
+                display: block;
+                height: 50px;
+            }
 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-        }
+            .container {
+                width: 600px;
+                height:fit-content;
+                margin-left: 50%;
+                transform: translateX(-50%);
+                top: 10px;
+                margin-top: 40px;
+                margin-bottom: 50px;
+                
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                padding: 90px;
+            }
 
-        #title-display {
-            position: absolute;
-            top: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 25px;
+            #title {
+                position: absolute;
+                top: 20px;
+                left: 25%;
+                right: 25%;
+                width: 50%;
+                font-size: 25px;
+                font-weight: bolder;
+            }
 
-            font-weight: bolder;
-        }
+            #form-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: start;
+                width: 300px;
+                font-weight: bold;
+
+                margin-left:60px;
+                margin-right:60px;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            input {
+                width:100%;
+                height: 30px;
+                border-color: white;
+                outline: none;
+            }
+
+            input:focus {
+                border-color: #AA36A3;
+                outline: #AA36A3;
+            }
+
+            ul {
+                list-style-type: none;
+                padding: 0px;
+                margin: 0px;
+            }
+
+            .form-button {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 30px;
+            }
     </style>
 </head>
 <body>
     <!-- Navbar -->
-	<nav class="navbar navbar-light">
+	<nav class="navbar navbar-light" id="remove-spacing">
         <div class="heading">
           <div class="navbar-header">
              <a class="text-white navbar-brand" id="home-link" href="{% url 'movie-list' %}">K-Dramas</a>
@@ -58,7 +113,11 @@
                 <a href="{%url 'actor-list'%}" id="dropdown-link"><div id="dropdown-item">
                     Actor List
                 </div></a>
-                
+
+                <a href="{%url 'actor-add'%}" id="dropdown-link"><div id="dropdown-item">
+                    Add Actor
+                </div></a>
+
                 <a href="{%url 'movie-add'%}" id="dropdown-link"><div id="dropdown-item">
                     Add K-Drama
                 </div></a>
@@ -68,12 +127,14 @@
     </nav>
     
     <div class="container">
-        <h1 id="title-display">{{action}} K-Drama</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="form-button">{{action}}</button>
-        </form>
+        <h1 id="title">{{action}} K-Drama</h1>
+        <div id="form-content">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="form-button">{{action}}</button>
+            </form>
+        </div>
     </div>
     <script>
         document.getElementById("id_title").placeholder = "Enter movie title (string)";
