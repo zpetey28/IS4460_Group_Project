@@ -4,7 +4,8 @@ from .views import (MovieListView, MovieDetailView, MovieCreateView,
                     MovieUpdateView, MovieDeleteView, MovieListCreateAPIView, 
                     MovieRetrieveUpdateDestroyAPIView, ActorListView, ActorCreateView, 
                     ActorDeleteView, ActorUpdateView, AwardListView, AwardDeleteView, 
-                    AwardCreateView, AwardUpdateView, ActorDetailView, MovieAddActorView)
+                    AwardCreateView, AwardUpdateView, ActorDetailView, MovieAddActorView,
+                    MovieRemoveActorView)
 
 
 urlpatterns = [
@@ -33,6 +34,7 @@ urlpatterns = [
     path('actor/delete/<int:actor_id>/', ActorDeleteView.as_view(), name='actor-delete'),
 
     path('details/<int:kdrama_id>/add-actor/', MovieAddActorView.as_view(), name='movie-add-actor'),
+    path('details/<int:kdrama_id>/remove-actor/', MovieRemoveActorView.as_view(), name='movie-remove-actor'),
 
     #Award urls
     path('movie/<int:movie_id>/awards/', AwardListView.as_view(), name='movie-awards-list'),

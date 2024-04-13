@@ -245,6 +245,10 @@
                 +<br>Add<br>Actor
             </a>
         </div>
+        <br>
+        <a href="{% url 'movie-remove-actor' kdrama.movie_id %}" id="button-styles"><div class="button">
+            - Remove Actor
+        </div></a>
         <hr>
         {% if kdrama.youtube_url %}
             <iframe width="560" height="315" src="{{ kdrama.youtube_url }}" frameborder="0" allowfullscreen></iframe>

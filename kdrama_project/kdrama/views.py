@@ -78,6 +78,41 @@ class MovieAddActorView(LoginRequiredMixin, View):
         context = {'kdrama':kdrama, 'form':kdrama_form}
 
         return render(request = request, template_name=self.template_name, context=context)
+    
+class MovieRemoveActorView(LoginRequiredMixin, View):
+    template_name = 'kdrama/movie_remove_actor.html'
+
+    def get(self, request, kdrama_id=None):
+        if kdrama_id:
+            kdrama = Movie.objects.get(movie_id=kdrama_id)
+        else:
+            kdrama = Movie()
+
+        form = AddActorForm()
+        form.fields['actor_selection'].queryset = kdrama.actors
+        
+        context = {'kdrama':kdrama, 'form':form}
+
+        return render(request = request, template_name=self.template_name, context=context)
+    
+    def post(self, request, kdrama_id=None):
+        if kdrama_id:
+            kdrama = Movie.objects.get(movie_id=kdrama_id)
+        else:
+            kdrama = Movie()
+
+        kdrama_form = AddActorForm(request.POST, instance=kdrama)
+        
+
+        if kdrama_form.is_valid():
+            
+            kdrama.actors.remove(kdrama_form.cleaned_data.get('actor_selection'))
+            kdrama.save()
+            return redirect(reverse('movie-details') + str(kdrama_id))
+        
+        context = {'kdrama':kdrama, 'form':kdrama_form}
+
+        return render(request = request, template_name=self.template_name, context=context)
 
 class MovieCreateView(LoginRequiredMixin, View):
     template_name = 'kdrama/movie_form.html'

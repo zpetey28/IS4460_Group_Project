@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+    <title>{{action}} K-Drama</title>
+    <style>
+
+        .container {
+            width: 600px;
+            height: 300px;
+            margin-top: 50px;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            padding-top: 35px;
+
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        #title-display {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 25px;
+
+            font-weight: bolder;
+        }
+
+        .form-button {
+            position: absolute;
+            left:50%;
+            transform: translateX(-50%);
+            bottom: 15px;
+        }
+
+        #id_actor_selection {
+            width:200px;
+            height: 30px;
+            border-color: white;
+            outline: none;
+        }
+
+        #id_actor_selection:active {
+            border-color: #AA36A3;
+            outline: #AA36A3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+	<nav class="navbar navbar-light" id="remove-spacing">
+        <div class="heading">
+          <div class="navbar-header">
+             <a class="text-white navbar-brand" id="home-link" href="{% url 'movie-list' %}">K-Dramas</a>
+          </div>
+
+          <p id="greeting">Hello, {{user.username}}</h2>
+
+          <div class="dropdown" id="text-white">
+            <span>Profile</span>
+            <div class="dropdown-content">
+                <div id="dropdown-item">
+                    <form action="{% url 'logout' %}" method="post">
+                        {%csrf_token%}
+                        <button type="submit" id="logout-button">Logout</button>
+                    </form>
+                </div>
+
+                <a href="{%url 'actor-list'%}" id="dropdown-link"><div id="dropdown-item">
+                    Actor List
+                </div></a>
+
+                <a href="{%url 'actor-add'%}" id="dropdown-link"><div id="dropdown-item">
+                    Add Actor
+                </div></a>
+
+                <a href="{%url 'movie-add'%}" id="dropdown-link"><div id="dropdown-item">
+                    Add K-Drama
+                </div></a>
+            </div>
+          </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h1 id="title-display">Remove Actor from {{kdrama.title}} </h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="form-button">Remove Actor</button>
+        </form>
+    </div>
+
+    <div class="footer" id="bootstrap-override">
+        <p id="footer-title">K-Drama App</h4>
+        <p id="footer-info">© Group 12 Isaac Ahlborn, Daniel Myers, Zack Peterson, Stone Pollock, Matt Young</h4>
+    </div>
+</body>
+</html>
