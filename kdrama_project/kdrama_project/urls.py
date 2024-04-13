@@ -16,9 +16,10 @@ Including another URLconf
 """
 
 # MovieApp/urls.py
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.contrib import admin
 from .views import RegisterView
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('accounts/',include('django.contrib.auth.urls')),
 
     path('accounts/register/', RegisterView.as_view(), name='account-register'),
+    re_path(r'^$', RedirectView.as_view(url='/accounts/login/', permanent=False)),
 ]
