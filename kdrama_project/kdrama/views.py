@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .models import Movie
@@ -9,6 +10,7 @@ from .models import Movie, Actor, Award
 from .forms import MovieForm, ActorForm, AwardForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
+from django.views.generic import TemplateView, ListView
 
 class MovieListCreateAPIView(generics.ListCreateAPIView):
     queryset = Movie.objects.all()
@@ -390,3 +392,43 @@ class AwardDeleteView(LoginRequiredMixin, View):
         award = get_object_or_404(Award, pk=award_id)
         award.delete()
         return redirect('movie-awards-list', movie_id=movie_id)
+    
+class MovieAwardsReportView(ListView):
+    model = Movie
+    template_name = 'movie_awards_report.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(awards__isnull=False).prefetch_related('awards')
+
+'''
+class TopSalesReportView(ListView):
+    model = Customer
+    template_name = 'top_sales_report.html'
+    context_object_name = 'top_customers'
+
+    def get_queryset(self):
+        return super().get_queryset().annotate(total_sales=Count('sales')).order_by('-total_sales')[:10]'''
+
+class DramaActorsReportView(ListView):
+    model = Movie
+    template_name = 'drama_actors_report.html'
+
+    def get_queryset(self):
+        self.movie = get_object_or_404(Movie, id=self.kwargs['movie_id'])
+        return self.movie.actors.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['movie'] = self.movie
+        return context
+    
+'''class DramaSalesOverTimeReportView(ListView):
+    model = Sale
+    template_name = 'drama_sales_over_time_report.html'
+    context_object_name = 'sales'
+
+    def get_queryset(self):
+        self.movie_id = self.kwargs['movie_id']
+        start_date = self.request.GET.get('start_date')
+        end_date = self.request.GET.get('end_date')
+        return super().get_queryset().filter(movie_id=self.movie_id, date__range=(start_date, end_date))'''
