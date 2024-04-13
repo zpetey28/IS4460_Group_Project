@@ -168,7 +168,7 @@ class MovieDeleteView(LoginRequiredMixin, View):
             
         return redirect(reverse('movie-list'))
     
-class ActorListView(View):
+class ActorListView(LoginRequiredMixin, View):
     template_name = 'actors/actor_list.html'
 
     def get(self, request):
@@ -178,7 +178,7 @@ class ActorListView(View):
 
         return render(request, self.template_name, context)
 
-class ActorCreateView(View):
+class ActorCreateView(LoginRequiredMixin, View):
     template_name = 'actors/actor_form.html'
     action = "Add"
 
@@ -198,7 +198,7 @@ class ActorCreateView(View):
 
         return render(request, template_name=self.template_name, context=context)
 
-class ActorDetailView(View):
+class ActorDetailView(LoginRequiredMixin, View):
     template_name = 'actors/actor_details.html'
 
     def get(self, request, actor_id=None):
@@ -211,7 +211,7 @@ class ActorDetailView(View):
 
         return render(request, self.template_name, context=context)
 
-class ActorUpdateView(View):
+class ActorUpdateView(LoginRequiredMixin, View):
     template_name = 'actors/actor_form.html'
     action = "Update"
 
@@ -230,12 +230,20 @@ class ActorUpdateView(View):
         context = {'form': actor_form, 'action': self.action}
         return render(request, template_name=self.template_name, context=context)
 
-class ActorDeleteView(View):
-    template_name = 'actors/actor_confirm_delete.html'
+
+class ActorDeleteView(LoginRequiredMixin, View):
+    template_name = "actors/actor_form.html"
+    action = "Delete"
 
     def get(self, request, actor_id):
         actor = get_object_or_404(Actor, pk=actor_id)
-        context = {'actor': actor}
+
+        actor_form = ActorForm(instance=actor)
+
+        for field in actor_form.fields:
+            actor_form.fields[field].widget.attrs['disabled'] = True
+
+        context = {'form':actor_form, 'action':'Delete'}
         return render(request, template_name=self.template_name, context=context)
 
     def post(self, request, actor_id):
@@ -244,7 +252,7 @@ class ActorDeleteView(View):
         return redirect(reverse('actor-list'))
     
 
-class AwardListView(View):
+class AwardListView(LoginRequiredMixin, View):
     template_name = 'awards/award_list.html'
 
     def get(self, request, movie_id=None):
@@ -256,7 +264,7 @@ class AwardListView(View):
         else:
             return HttpResponse("Movie ID is required.")
 
-class AwardCreateView(View):
+class AwardCreateView(LoginRequiredMixin, View):
     template_name = 'awards/award_form.html'
 
     def get(self, request, movie_id):
@@ -276,7 +284,7 @@ class AwardCreateView(View):
             context = {'form': form}
             return render(request, self.template_name, context)
 
-class AwardUpdateView(View):
+class AwardUpdateView(LoginRequiredMixin, View):
     template_name = 'awards/award_form.html'
 
     def get(self, request, movie_id, award_id):
@@ -295,7 +303,7 @@ class AwardUpdateView(View):
             context = {'form': form}
             return render(request, self.template_name, context)
 
-class AwardDeleteView(View):
+class AwardDeleteView(LoginRequiredMixin, View):
     template_name = 'awards/award_confirm_delete.html'
 
     def get(self, request, movie_id, award_id):
