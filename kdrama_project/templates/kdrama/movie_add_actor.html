@@ -91,11 +91,11 @@
     </nav>
     
     <div class="container">
-        <h1 id="title-display">Add Actor to {{kdrama.title}} </h1>
+        <h1 id="title-display">{{subject}} </h1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="form-button">Add Actor</button>
+            <button type="submit" class="form-button">Add {{object}}</button>
         </form>
     </div>
 

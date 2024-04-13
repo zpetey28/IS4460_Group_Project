@@ -16,6 +16,9 @@ class Movie(models.Model):
     actors = models.ManyToManyField('Actor', related_name='movies')
     awards = models.ManyToManyField('Award', related_name='movies')
 
+    def __str__(self):
+        return self.title
+
 class Award(models.Model):
     award_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)

@@ -96,11 +96,80 @@
         }
 
         #controls {
-            position:absolute;
-            bottom:13px;
             display: flex;
             flex-direction: row;
             gap: 40px;
+            margin-bottom: 13px;
+        }
+
+        #kdrama-view {
+            display:flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            width: 100%;
+            height:fit-content;
+            min-height:32vh;
+        }
+
+        #kdrama-pane {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+
+            width:20%;
+        }
+
+        #kdrama-pane:hover {
+            text-decoration: none;
+        }
+
+        #kdrama-pane:hover #kdrama-name {
+            color: #333333;
+            background-color: white;
+        }
+
+        #kdrama-image {
+            height: 30vh;
+            width: 100%;
+            border-right: 1px solid black;
+        }
+
+        #kdrama-name {
+            background-color: #777777;
+            color:white;
+            border-right: 1px solid black;
+            flex: 1;
+            margin: 0px;
+        }
+
+        #kdrama-name:hover {
+            text-decoration: none;
+        }
+
+        #add-kdrama-button {
+            text-align: center;
+            background-color: #333333;
+            color: white;
+            text-decoration: none;
+
+            width: 20%;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+        }
+
+        #add-kdrama-button:hover {
+            text-decoration: none;
+            background-color: #777777;
+            color:#333333;
+        }
+
+        #section-title {
+            font-weight: 700;
         }
     </style>
 </head>
@@ -146,6 +215,22 @@
         <hr>
         <img src="{{ actor.image_url }}" alt="{{ actor }}" class="movie-image">
         <p id="description">Born: {{ actor.date_of_birth }}</p>
+        <hr>
+
+        <h2 id="section-title">K-Dramas</h2>
+        <div id="kdrama-view">
+            
+            {% for kdrama in kdramas %}
+                <a id="kdrama-pane" href="{% url 'movie-details' kdrama.movie_id %}">
+                    <img src="{{kdrama.image_url}}" alt="{{kdrama.title}}" id="kdrama-image">
+                    <p id="kdrama-name">{{kdrama.title}}</p>
+                </a>
+            {% endfor %}
+            <a href="{% url 'actor-add-movie' actor.actor_id %}" id="add-kdrama-button">
+                +<br>Add<br>K-Drama
+            </a>
+        </div>
+
         <hr>
 
         <div id="controls">

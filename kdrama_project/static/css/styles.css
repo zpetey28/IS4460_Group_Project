@@ -187,3 +187,73 @@ body {
     background-image: linear-gradient(to right, #BB47B4, #DA6D97);
     text-decoration: none;
 }
+
+#actor-view {
+            display:flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            width: 100%;
+            height:fit-content;
+            min-height:32vh;
+        }
+
+        #actor-pane {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+
+            width:20%;
+        }
+
+        #actor-pane:hover {
+            text-decoration: none;
+        }
+
+        #actor-pane:hover #actor-name {
+            color: #333333;
+            background-color: white;
+        }
+
+        #actor-image {
+            height: 30vh;
+            width: 100%;
+            border-right: 1px solid black;
+        }
+
+        #actor-name {
+            background-color: #777777;
+            color:white;
+            border-right: 1px solid black;
+            flex: 1;
+            margin: 0px;
+        }
+
+        #actor-name:hover {
+            text-decoration: none;
+        }
+
+        #add-actor-button {
+            text-align: center;
+            background-color: #333333;
+            color: white;
+            text-decoration: none;
+
+            width: 20%;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+        }
+
+        #add-actor-button:hover {
+            text-decoration: none;
+            background-color: #777777;
+            color:#333333;
+        }
+
+        #section-title {
+            font-weight: 700;
+        }

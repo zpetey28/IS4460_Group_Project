@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .models import Movie
-from .forms import MovieForm, AddActorForm
+from .forms import MovieForm, AddActorForm, AddMovieForm
 from .serializers import MovieSerializer
 from rest_framework import generics
 from django.views import View
@@ -47,6 +47,8 @@ class MovieDetailView(LoginRequiredMixin, View):
     
 class MovieAddActorView(LoginRequiredMixin, View):
     template_name = 'kdrama/movie_add_actor.html'
+    action = "Add Actor to "
+    object = 'Actor'
 
     def get(self, request, kdrama_id=None):
         if kdrama_id:
@@ -56,7 +58,7 @@ class MovieAddActorView(LoginRequiredMixin, View):
 
         form = AddActorForm()
         
-        context = {'kdrama':kdrama, 'form':form}
+        context = {'subject':self.action + kdrama.title, 'form':form, 'object':self.object}
 
         return render(request = request, template_name=self.template_name, context=context)
     
@@ -66,16 +68,16 @@ class MovieAddActorView(LoginRequiredMixin, View):
         else:
             kdrama = Movie()
 
-        kdrama_form = AddActorForm(request.POST, instance=kdrama)
+        form = AddActorForm(request.POST, instance=kdrama)
         
 
-        if kdrama_form.is_valid():
+        if form.is_valid():
             
-            kdrama.actors.add(kdrama_form.cleaned_data.get('actor_selection'))
+            kdrama.actors.add(form.cleaned_data.get('actor_selection'))
             kdrama.save()
             return redirect(reverse('movie-details') + str(kdrama_id))
         
-        context = {'kdrama':kdrama, 'form':kdrama_form}
+        context = {'subject':self.action + kdrama.title, 'form':form, 'object':self.object}
 
         return render(request = request, template_name=self.template_name, context=context)
     
@@ -212,6 +214,42 @@ class ActorListView(LoginRequiredMixin, View):
         context = {'actors':actors}
 
         return render(request, self.template_name, context)
+    
+class ActorAddMovieView(LoginRequiredMixin, View):
+    template_name = 'kdrama/movie_add_actor.html'
+    action = "Add K-Drama to "
+    object = 'K-Drama'
+
+    def get(self, request, actor_id=None):
+        if actor_id:
+            actor = Actor.objects.get(actor_id=actor_id)
+        else:
+            actor = Actor()
+
+        form = AddMovieForm()
+        
+        context = {'subject':self.action + str(actor), 'form':form, 'object':self.object}
+
+        return render(request = request, template_name=self.template_name, context=context)
+    
+    def post(self, request, actor_id=None):
+        if actor_id:
+            actor = Actor.objects.get(actor_id=actor_id)
+        else:
+            actor = Actor()
+
+        form = AddMovieForm(request.POST, instance=actor)
+
+        if form.is_valid():
+            kdrama = form.cleaned_data.get('kdrama_selection')
+
+            kdrama.actors.add(actor)
+            kdrama.save()
+            return redirect(reverse('actor-details') + str(actor_id))
+        
+        context = {'subject':self.action + str(actor), 'form':form, 'object':self.object}
+
+        return render(request = request, template_name=self.template_name, context=context)
 
 class ActorCreateView(LoginRequiredMixin, View):
     template_name = 'actors/actor_form.html'
@@ -242,7 +280,9 @@ class ActorDetailView(LoginRequiredMixin, View):
         else:
             actor = Actor()
 
-        context = {'actor':actor}
+        kdramas = Movie.objects.filter(actors=actor)
+
+        context = {'actor':actor, 'kdramas':kdramas}
 
         return render(request, self.template_name, context=context)
 

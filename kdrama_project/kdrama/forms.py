@@ -13,6 +13,13 @@ class AddActorForm(forms.ModelForm):
         model = Actor
         fields = ['actor_selection']
 
+class AddMovieForm(forms.ModelForm):
+    kdrama_selection = forms.ModelChoiceField(queryset=Movie.objects.all())
+
+    class Meta:
+        model = Movie
+        fields = ['kdrama_selection']
+
 class ActorForm(forms.ModelForm):
     class Meta:
         model = Actor
