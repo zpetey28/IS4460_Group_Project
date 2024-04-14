@@ -1,23 +1,6 @@
 import sys
 from django.db import models
-
-class Movie(models.Model):
-    movie_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=500, blank=True)
-    director = models.CharField(max_length=100, blank=True)
-    release_year = models.CharField(max_length=50, blank=True)
-    budget = models.CharField(max_length=50, blank=True)
-    runtime = models.CharField(max_length=50, blank=True)
-    rating = models.CharField(max_length=50, blank=True)
-    genre = models.CharField(max_length=50, blank=True)
-    image_url = models.URLField(blank=True)
-    youtube_url = models.URLField(blank=True)
-    actors = models.ManyToManyField('Actor', related_name='movies')
-    awards = models.ManyToManyField('Award', related_name='movies')
-
-    def __str__(self):
-        return self.title
+from django.contrib.auth.models import User
 
 class Award(models.Model):
     award_id = models.AutoField(primary_key=True)
@@ -45,14 +28,6 @@ class Actor(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-    
-class MovieCharacter(models.Model):
-    character_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    actor = models.ForeignKey(Actor, on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return self.name
 
 class Director(models.Model):
     director_id = models.AutoField(primary_key=True)
@@ -62,3 +37,32 @@ class Director(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+class Movie(models.Model):
+    movie_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=100)
+    description = models.CharField(max_length=500, blank=True)
+    director = models.ForeignKey(Director, on_delete=models.CASCADE,default=1)
+    studio = models.ForeignKey(Studio, on_delete=models.CASCADE,default=1)
+    release_year = models.IntegerField(blank=True, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    runtime = models.IntegerField(blank=True, null=True) # runtime in minutes
+    rating = models.CharField(max_length=50, blank=True)
+    genre = models.CharField(max_length=50, blank=True)
+    image_url = models.URLField(blank=True)
+    youtube_url = models.URLField(blank=True)
+    actors = models.ManyToManyField('Actor', related_name='movies')
+    awards = models.ManyToManyField('Award', related_name='movies')
+
+    def __str__(self):
+        return self.title
+    
+class Purchase(models.Model):
+    purchase_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Now referencing Django's built-in User model
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    purchase_date = models.DateTimeField()
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def str(self):
+        return f"{self.user.username} - {self.movie.title}"
