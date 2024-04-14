@@ -5,8 +5,9 @@ from .views import (MovieListView, MovieDetailView, MovieCreateView,
                     MovieRetrieveUpdateDestroyAPIView, ActorListView, ActorCreateView, 
                     ActorDeleteView, ActorUpdateView, AwardListView, AwardDeleteView, 
                     AwardCreateView, AwardUpdateView, ActorDetailView, MovieAddActorView,
-                    MovieRemoveActorView, ActorAddMovieView, MovieAwardsReportView, DramaActorsReportView, 
+                    MovieRemoveActorView, ActorAddMovieView,
                     DirectorListView, DirectorCreateView, DirectorUpdateView, DirectorDeleteView, 
+                    DirectorDetailView,
                     StudioListView, StudioCreateView, StudioUpdateView, StudioDeleteView, PurchaseCreateView,
                     PurchaseConfirmationView, UserPurchasesView)
 
@@ -48,17 +49,15 @@ urlpatterns = [
     path('movie/<int:movie_id>/awards/<int:award_id>/update/', AwardUpdateView.as_view(), name='movie-award-update'),
     path('movie/<int:movie_id>/awards/<int:award_id>/delete/', AwardDeleteView.as_view(), name='movie-award-delete'),
 
-    #Reports urls
-    path('movie-awards-report/', MovieAwardsReportView.as_view(), name='movie-awards-report'),
-    #path('top-sales-report/', TopSalesReportView.as_view(), name='top-sales-report'),
-    path('drama-actors-report/<int:movie_id>/', DramaActorsReportView.as_view(), name='drama-actors-report'),
-    #path('drama-sales-over-time-report/<int:movie_id>/', DramaSalesOverTimeReportView.as_view(), name='drama-sales-over-time-report'),
+
 
     #director URLs
-    path('directors/', DirectorListView.as_view(), name='director-list'),
+    path('directors/list', DirectorListView.as_view(), name='director-list'),
+    path('directors/details/<int:director_id>/', DirectorDetailView.as_view(), name='director-details'),
+    path('directors/details/', DirectorDetailView.as_view(), name='director-details'),
     path('directors/add/', DirectorCreateView.as_view(), name='director-add'),
-    path('directors/<int:pk>/update/', DirectorUpdateView.as_view(), name='director-update'),
-    path('directors/<int:pk>/delete/', DirectorDeleteView.as_view(), name='director-delete'),
+    path('directors/update/<int:director_id>/', DirectorUpdateView.as_view(), name='director-update'),
+    path('directors/delete/<int:director_id>/', DirectorDeleteView.as_view(), name='director-delete'),
 
     # Studio URLs
     path('studios/', StudioListView.as_view(), name='studio-list'),

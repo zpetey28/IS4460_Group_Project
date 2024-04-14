@@ -455,50 +455,90 @@ class SalesOverTimeReportView(LoginRequiredMixin, ListView):
         return context
 
 # Director Views
-class DirectorListView(LoginRequiredMixin, ListView):
-    model = Director
+class DirectorListView(LoginRequiredMixin, View):
     template_name = 'directors/director_list.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Directors List'
-        context['description'] = 'View all directors here.'
-        return context
+    def get(self, request):
+        directors = Director.objects.all()
 
-class DirectorCreateView(LoginRequiredMixin, CreateView):
-    model = Director
-    form_class = DirectorForm
+        context = {'directors':directors}
+
+        return render(request, self.template_name, context)
+
+class DirectorDetailView(LoginRequiredMixin, View):
+    template_name = 'directors/director_details.html'
+
+    def get(self, request, director_id=None):
+        if director_id:
+            director = Director.objects.get(director_id=director_id)
+        else:
+            director = Director()
+
+        kdramas = Movie.objects.filter(director=director)
+
+        context = {'director':director, 'kdramas':kdramas}
+
+        return render(request, self.template_name, context=context)
+
+class DirectorCreateView(LoginRequiredMixin, View):
     template_name = 'directors/director_form.html'
-    success_url = reverse_lazy('director-list')
+    action = "Add"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Add New Director'
-        context['description'] = 'Enter details to add a new director.'
-        return context
+    def get(self, request):
+        director_form = DirectorForm()
+        context = {'form': director_form, 'action': self.action}
+        return render(request, template_name=self.template_name, context=context)
 
-class DirectorUpdateView(LoginRequiredMixin, UpdateView):
-    model = Director
-    form_class = DirectorForm
+    def post(self, request):
+        director_form = DirectorForm(request.POST)
+        if director_form.is_valid():
+            director_form.save()
+
+            return redirect(reverse('director-list'))
+        
+        context = {'form': director_form, 'action': self.action}
+
+        return render(request, template_name=self.template_name, context=context)
+
+class DirectorUpdateView(LoginRequiredMixin, View):
     template_name = 'directors/director_form.html'
-    success_url = reverse_lazy('director-list')
+    action = "Update"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Edit Director'
-        context['description'] = 'Update director details.'
-        return context
+    def get(self, request, director_id):
+        director = get_object_or_404(Director, pk=director_id)
+        director_form = DirectorForm(instance=director)
+        context = {'form': director_form, 'action': self.action}
+        return render(request, template_name=self.template_name, context=context)
+
+    def post(self, request, director_id):
+        director = get_object_or_404(Director, pk=director_id)
+        director_form = DirectorForm(request.POST, instance=director)
+        if director_form.is_valid():
+            director_form.save()
+            return redirect(reverse('director-details') + str(director_id))
+        context = {'form': director_form, 'action': self.action}
+        return render(request, template_name=self.template_name, context=context)
+
 
 class DirectorDeleteView(LoginRequiredMixin, DeleteView):
-    model = Director
-    template_name = 'directors/director_confirm_delete.html'
-    success_url = reverse_lazy('director-list')
+    template_name = "directors/director_form.html"
+    action = "Delete"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Delete Director'
-        context['description'] = 'Confirm deletion of this director.'
-        return context
+    def get(self, request, director_id):
+        director = get_object_or_404(Director, pk=director_id)
+
+        director_form = DirectorForm(instance=director)
+
+        for field in director_form.fields:
+            director_form.fields[field].widget.attrs['disabled'] = True
+
+        context = {'form':director_form, 'action':'Delete'}
+        return render(request, template_name=self.template_name, context=context)
+
+    def post(self, request, director_id):
+        director = get_object_or_404(Director, pk=director_id)
+        director.delete()
+        return redirect(reverse('director-list'))
 
 # Studio Views
 class StudioListView(LoginRequiredMixin, ListView):

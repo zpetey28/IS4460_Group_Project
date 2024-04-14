@@ -49,13 +49,13 @@
     </nav>
 
     <div class="container">
-        <h1 id="title">Actors</h1>
+        <h1 id="title">Directors</h1>
         <div id="person-array">
-            {% for actor in actors %}
-                <a href="{% url 'actor-details' actor.actor_id %}" id="button-styles">
+            {% for director in directors %}
+                <a href="{% url 'director-details' director.director_id %}" id="button-styles">
                 <div id="person-pane" >
-                    <img src="{{ actor.image_url }}" alt="{{ actor }}">
-                    {{ actor.first_name }} {{ actor.last_name }}
+                    <img src="{{ director.image_url }}" alt="{{ director }}">
+                    {{director}}
                 </div>
                 </a>
             {% endfor %}

@@ -2,52 +2,57 @@
 <html>
 <head>
     {% load static %}
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
-    <title>{{action}} K-Drama</title>
+    <title>Add Director</title>
     <style>
+        body {
+            min-height: 100vh;
+            position: relative;
+            top:0;
+        }
 
-            body {
-                min-height: 100vh;
-                position: relative;
-                top:0;
-            }
+        body::after {
+            content: '';
+            display: block;
+            height: 50px;
+        }
 
-            body::after {
-                content: '';
-                display: block;
-                height: 50px;
-            }
+        .container {
+            width: 600px;
+            height:fit-content;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            top: 10px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            padding: 90px;
+            padding-top: 120px;
+        }
 
-            .container {
-                width: 600px;
-                height:fit-content;
-                margin-left: 50%;
-                transform: translateX(-50%);
-                top: 10px;
-                margin-top: 40px;
-                margin-bottom: 50px;
-                
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                text-align: center;
-                padding: 90px;
-            }
+        #title {
+            position: absolute;
+            top: 5px;
+            right: 25%;
+            left: 25%;
+            width: 50%;
+            font-weight: 700;
+        }
 
-            #title {
-                position: absolute;
-                top: 20px;
-                left: 25%;
-                right: 25%;
-                width: 50%;
-                font-size: 25px;
-                font-weight: bolder;
-            }
+        .form-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
 
-            #form-content {
+        #form-content {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -76,30 +81,12 @@
                 outline: #AA36A3;
             }
 
-            #id_director {
-                width:100%;
-                height: 30px;
-                border-color: white;
-                outline: none;
-            }
-
-            #id_director:focus {
-                border-color: #AA36A3;
-                outline: #AA36A3;
-            }
-
             ul {
                 list-style-type: none;
                 padding: 0px;
                 margin: 0px;
             }
 
-            .form-button {
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
-                bottom: 30px;
-            }
     </style>
 </head>
 <body>
@@ -139,27 +126,15 @@
     </nav>
     
     <div class="container">
-        <h1 id="title">{{action}} K-Drama</h1>
+        <h1 id="title">{{ action }} Director</h1>
         <div id="form-content">
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="form-button">{{action}}</button>
+                <button type="submit" class="form-button">{{ action }}</button>
             </form>
         </div>
     </div>
-    <script>
-        document.getElementById("id_title").placeholder = "Enter movie title (string)";
-        document.getElementById("id_description").placeholder = "Enter movie description (string)";
-        document.getElementById("id_director").placeholder = "Enter director's name (string)";
-        document.getElementById("id_release_year").placeholder = "Enter release year (integer)";
-        document.getElementById("id_budget").placeholder = "Enter budget (integer)";
-        document.getElementById("id_runtime").placeholder = "Enter runtime (integer)";
-        document.getElementById("id_rating").placeholder = "Enter rating (float)";
-        document.getElementById("id_genre").placeholder = "Enter genre (string)";
-        document.getElementById("id_image_url").placeholder = "Enter image URL (string)";
-        document.getElementById("id_youtube_url").placeholder = "Enter YouTube URL (string)";
-    </script>
 
     <div class="footer" id="bootstrap-override">
         <p id="footer-title">K-Drama App</h4>

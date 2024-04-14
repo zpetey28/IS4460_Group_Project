@@ -2,6 +2,8 @@ from django import forms
 from .models import Movie, Actor, Award, Director, Studio, Purchase
 
 class MovieForm(forms.ModelForm):
+    director = forms.ModelChoiceField(queryset=Director.objects.all())
+
     class Meta:
         model = Movie
         fields = ['title', 'description', 'director', 'episode_length', 'seasons', 'episodes', 'studio', 'price', 'rating', 'genre', 'image_url', 'youtube_url']

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+    <title>{{actor}} Details</title>
+    <style>
+
+        body {
+            min-height: 100vh;
+            position: relative;
+            top:0;
+        }
+
+        body::after {
+            content: '';
+            display: block;
+            height: 50px;
+        }
+
+        .container {
+            margin-top: 0px;
+            width: 80vw;
+            border-top: none;
+
+            margin-left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 50px;
+            background-color: #FFE6E6DF;
+            border-image: linear-gradient(to right, #9b278edf, #a63869DF) 1;
+            padding-right: 25vw;
+
+            min-height: 60vh;
+        }
+
+        #remove-spacing {
+            margin-bottom: 0;
+        }
+
+        #title-text {
+            font-weight: 900;
+            font-size: 50px;
+        }
+
+        .movie-image {
+            position:absolute;
+            right:70px;
+            top: 40px;
+            height:40vh;
+            width: 28vh;
+            border-width:3px; 
+            border-style: solid;
+            border-image: linear-gradient(to right, #AA36A3, #B84B75) 1;
+        }
+
+        #description {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        hr {
+            border-color: #333333;
+        }
+
+        #kdrama-descriptions {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .description-item {
+            width: 33%;
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            font-size: 18px;
+            height: 80px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        span {
+            transform: translateY(-50%);
+        }
+
+        #button-styles {
+            text-decoration: none;
+        }
+
+        #button-styles:hover {
+            text-decoration: none;
+        }
+
+        #controls {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            margin-bottom: 13px;
+        }
+
+        #kdrama-view {
+            display:flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            width: 100%;
+            height:fit-content;
+            min-height:32vh;
+        }
+
+        #kdrama-pane {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+
+            width:20%;
+        }
+
+        #kdrama-pane:hover {
+            text-decoration: none;
+        }
+
+        #kdrama-pane:hover #kdrama-name {
+            color: #333333;
+            background-color: white;
+        }
+
+        #kdrama-image {
+            height: 30vh;
+            width: 100%;
+            border-right: 1px solid black;
+        }
+
+        #kdrama-name {
+            background-color: #777777;
+            color:white;
+            border-right: 1px solid black;
+            flex: 1;
+            margin: 0px;
+        }
+
+        #kdrama-name:hover {
+            text-decoration: none;
+        }
+
+        #add-kdrama-button {
+            text-align: center;
+            background-color: #333333;
+            color: white;
+            text-decoration: none;
+
+            width: 20%;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+        }
+
+        #add-kdrama-button:hover {
+            text-decoration: none;
+            background-color: #777777;
+            color:#333333;
+        }
+
+        #section-title {
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+	<nav class="navbar navbar-light" id="remove-spacing">
+        <div class="heading">
+          <div class="navbar-header">
+             <a class="text-white navbar-brand" id="home-link" href="{% url 'movie-list' %}">K-Dramas</a>
+          </div>
+
+          <p id="greeting">Hello, {{user.username}}</h2>
+
+          <div class="dropdown" id="text-white">
+            <span>Profile</span>
+            <div class="dropdown-content">
+                <div id="dropdown-item">
+                    <form action="{% url 'logout' %}" method="post">
+                        {%csrf_token%}
+                        <button type="submit" id="logout-button">Logout</button>
+                    </form>
+                </div>
+
+                <a href="{%url 'actor-list'%}" id="dropdown-link"><div id="dropdown-item">
+                    Actor List
+                </div></a>
+
+                <a href="{%url 'actor-add'%}" id="dropdown-link"><div id="dropdown-item">
+                    Add Actor
+                </div></a>
+
+                <a href="{%url 'movie-add'%}" id="dropdown-link"><div id="dropdown-item">
+                    Add K-Drama
+                </div></a>
+            </div>
+          </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <h1 id="title-text">{{director}}</h1>
+        <hr>
+        <img src="{{ director.image_url }}" alt="{{ director }}" class="movie-image">
+        <p id="description">Born: {{ director.date_of_birth }}</p>
+        <hr>
+
+        <h2 id="section-title">K-Dramas</h2>
+        <div id="kdrama-view">
+            
+            {% for kdrama in kdramas %}
+                <a id="kdrama-pane" href="{% url 'movie-details' kdrama.movie_id %}">
+                    <img src="{{kdrama.image_url}}" alt="{{kdrama.title}}" id="kdrama-image">
+                    <p id="kdrama-name">{{kdrama.title}}</p>
+                </a>
+            {% endfor %}
+        </div>
+
+        <hr>
+
+        <div id="controls">
+            <a href="{% url 'director-update' director.director_id %}" id="button-styles"><div class="button">
+                Edit
+            </div></a>
+            <a href="{% url 'director-delete' director.director_id %}" id="button-styles"><div class="button">
+                Delete
+            </div></a>
+        </div>
+
+    </div>
+
+    <div class="footer" id="bootstrap-override">
+        <p id="footer-title">K-Drama App</h4>
+        <p id="footer-info">© Group 12 Isaac Ahlborn, Daniel Myers, Zack Peterson, Stone Pollock, Matt Young</h4>
+    </div>
+</body>
+</html>
