@@ -7,7 +7,8 @@ from .views import (MovieListView, MovieDetailView, MovieCreateView,
                     AwardCreateView, AwardUpdateView, ActorDetailView, MovieAddActorView,
                     MovieRemoveActorView, ActorAddMovieView, MovieAwardsReportView, DramaActorsReportView, 
                     DirectorListView, DirectorCreateView, DirectorUpdateView, DirectorDeleteView, 
-                    StudioListView, StudioCreateView, StudioUpdateView, StudioDeleteView, PurchaseCreateView)
+                    StudioListView, StudioCreateView, StudioUpdateView, StudioDeleteView, PurchaseCreateView,
+                    PurchaseConfirmationView, UserPurchasesView)
 
 
 urlpatterns = [
@@ -66,8 +67,10 @@ urlpatterns = [
     path('studios/<int:pk>/delete/', StudioDeleteView.as_view(), name='studio-delete'),
 
     # Purchase URLs
-    path('purchase/add/', PurchaseCreateView.as_view(), name='purchase-add'),
-    
-    
+    path('details/purchase/<int:kdrama_id>/', PurchaseCreateView.as_view(), name='purchase'),
+    path('details/purchase/order-confirmation/<int:purchase_id>/', PurchaseConfirmationView.as_view(), name='purchase-confirmation'),
+    path('details/purchase/order-confirmation/', PurchaseConfirmationView.as_view(), name='purchase-confirmation'),
+    path('purchases/view', UserPurchasesView.as_view(), name='view-purchases'),
+
     
 ]

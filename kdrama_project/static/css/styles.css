@@ -3,12 +3,23 @@
     font-weight: bolder;
 }
 
+
 body {
     background-image: url("../images/flowerbackground.jpg");
     background-size: 1200px 1200px;
     background-repeat: repeat;
     margin: 0px;
     padding: 0px;
+
+    min-height: 100vh;
+    position: relative;
+    top:0;
+}
+
+body::after {
+    content: '';
+    display: block;
+    height: 50px;
 }
 
 .footer {
@@ -196,64 +207,68 @@ body {
             width: 100%;
             height:fit-content;
             min-height:32vh;
-        }
+    }
 
-        #actor-pane {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-            text-decoration: none;
+    #actor-pane {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        text-decoration: none;
 
-            width:20%;
-        }
+        width:20%;
+    }
 
-        #actor-pane:hover {
-            text-decoration: none;
-        }
+    #actor-pane:hover {
+        text-decoration: none;
+    }
 
-        #actor-pane:hover #actor-name {
-            color: #333333;
-            background-color: white;
-        }
+    #actor-pane:hover #actor-name {
+        color: #333333;
+        background-color: white;
+    }
 
-        #actor-image {
-            height: 30vh;
-            width: 100%;
-            border-right: 1px solid black;
-        }
+    #actor-image {
+        height: 30vh;
+        width: 100%;
+        border-right: 1px solid black;
+    }
 
-        #actor-name {
-            background-color: #777777;
-            color:white;
-            border-right: 1px solid black;
-            flex: 1;
-            margin: 0px;
-        }
+    #actor-name {
+        background-color: #777777;
+        color:white;
+        border-right: 1px solid black;
+        flex: 1;
+        margin: 0px;
+    }
 
-        #actor-name:hover {
-            text-decoration: none;
-        }
+    #actor-name:hover {
+        text-decoration: none;
+    }
 
-        #add-actor-button {
-            text-align: center;
-            background-color: #333333;
-            color: white;
-            text-decoration: none;
+    #add-actor-button {
+        text-align: center;
+        background-color: #333333;
+        color: white;
+        text-decoration: none;
 
-            width: 20%;
-            display: flex;
-            justify-content: center;
-            align-content: center;
-            align-items: center;
-        }
+        width: 20%;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+    }
 
-        #add-actor-button:hover {
-            text-decoration: none;
-            background-color: #777777;
-            color:#333333;
-        }
+    #add-actor-button:hover {
+        text-decoration: none;
+        background-color: #777777;
+        color:#333333;
+    }
 
-        #section-title {
-            font-weight: 700;
-        }
+    #section-title {
+        font-weight: 700;
+    }
+
+    hr {
+        border-color: #333333;
+    }

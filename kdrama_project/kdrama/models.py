@@ -1,6 +1,7 @@
 import sys
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 class Award(models.Model):
     award_id = models.AutoField(primary_key=True)
@@ -59,10 +60,10 @@ class Movie(models.Model):
     
 class Purchase(models.Model):
     purchase_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Now referencing Django's built-in User model
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    purchase_date = models.DateTimeField()
+    purchase_date = models.DateTimeField(default=datetime.now)
     total = models.DecimalField(max_digits=10, decimal_places=2)
 
-    def str(self):
+    def __str__(self):
         return f"{self.user.username} - {self.movie.title}"

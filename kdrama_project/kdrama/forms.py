@@ -41,6 +41,8 @@ class StudioForm(forms.ModelForm):
         fields = "__all__"
 
 class PurchaseForm(forms.ModelForm):
+    kdrama = forms.ModelChoiceField(queryset=Movie.objects.all())
+
     class Meta:
-        model = Purchase
-        fields = ['movie', 'total']  #user will be filled in by the view
+        model = Movie
+        fields = ['kdrama']

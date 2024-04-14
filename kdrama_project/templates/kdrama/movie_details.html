@@ -59,9 +59,6 @@
             font-weight: 700;
         }
 
-        hr {
-            border-color: #333333;
-        }
 
         #kdrama-descriptions {
             display: flex;
@@ -169,6 +166,18 @@
         #section-title {
             font-weight: 700;
         }
+
+        #purchase-button {
+            position: absolute;
+            text-decoration: none;
+
+            right:80px;
+            top: 350px;
+        }
+
+        #purchase-button:hover {
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -211,6 +220,10 @@
         <h1 id="title-text">{{kdrama.title}}</h1>
         <hr>
         <img src="{{ kdrama.image_url }}" alt="{{ kdrama.title }}" class="movie-image">
+        <a href="{% url 'purchase' kdrama.movie_id %}" id="purchase-button"><div class="button">
+            Purchase
+        </div></a>
+
         <p id="description">{{ kdrama.description }}</p>
         <hr>
         <div id="kdrama-descriptions">
@@ -229,6 +242,9 @@
             </div>
             <div class="description-item">
                 <p>Genres: {{ kdrama.genre }}</p>
+            </div>
+            <div class="description-item">
+                <p>Price: ${{ kdrama.price }}</p>
             </div>
         </div>
         <hr>

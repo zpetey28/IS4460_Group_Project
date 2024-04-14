@@ -524,18 +524,53 @@ class StudioDeleteView(LoginRequiredMixin, DeleteView):
         return context
 
 # Purchase Views
-class PurchaseCreateView(LoginRequiredMixin, CreateView):
-    model = Purchase
-    form_class = PurchaseForm
-    template_name = 'purchases/purchase_form.html'
-    success_url = reverse_lazy('purchase-list')
+class PurchaseCreateView(LoginRequiredMixin, View):
+    template_name = 'kdrama/purchase_form.html'
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user  # Automatically assign the logged-in user
-        return super().form_valid(form)
+    def get(self, request, kdrama_id=None):
+        if kdrama_id:
+            kdrama = Movie.objects.get(movie_id=kdrama_id)
+        else:
+            kdrama = Movie()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'New Purchase'
-        context['description'] = 'Complete the form to make a new purchase.'
-        return context
+        kdrama_form = PurchaseForm(instance=kdrama, initial={'kdrama':kdrama})
+        for field in kdrama_form.fields:
+            kdrama_form.fields[field].widget.attrs['disabled'] = True
+        
+        context = {'kdrama':kdrama, 'form':kdrama_form}
+
+        return render(request = request, template_name=self.template_name, context=context)
+    
+    def post(self, request, kdrama_id=None):
+        if kdrama_id:
+            kdrama = Movie.objects.get(movie_id=kdrama_id)
+        else:
+            kdrama = Movie()
+        
+        order = Purchase(user=request.user, movie=kdrama, total=kdrama.price)
+        order.save()
+
+        return redirect(reverse('purchase-confirmation') + str(order.purchase_id))
+    
+class PurchaseConfirmationView(LoginRequiredMixin, View):
+    template_name = 'kdrama/purchase_confirmation.html'
+
+    def get(self, request, purchase_id=None):
+        if purchase_id:
+            order = Purchase.objects.get(purchase_id=purchase_id)
+        else:
+            order = Purchase()
+        
+        context = {'order':order}
+
+        return render(request = request, template_name=self.template_name, context=context)
+    
+class UserPurchasesView(LoginRequiredMixin, View):
+    template_name = 'kdrama/view_purchases.html'
+
+    def get(self, request):
+        purchases = Purchase.objects.filter(user=request.user)
+        
+        context = {'purchases':purchases}
+
+        return render(request = request, template_name=self.template_name, context=context)
