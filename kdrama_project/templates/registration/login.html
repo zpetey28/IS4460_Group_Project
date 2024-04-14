@@ -17,13 +17,72 @@
             position: absolute;
             right: 200px;
             top: 15%;
-            bottom: 50%;
-            width: 30%;
-            height: 55%;
-            justify-content: center;
-            text-align: center;
+            width: 500px;
+            height: fit-content;
 
+            display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #form-container {
+            justify-content: start;
+            text-align: start;
+            width: 50%;
+            height:fit-content;
+            gap: 0px;
+
+            display: flex;
+            flex-direction: column;
+
+            margin-bottom: 20px;
+        }
+
+        .form-button {
+            margin-left:50%;
+            transform: translateX(-50%);
+            margin-top: 30px;
+        }
+
+        .form-label {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            color: #333333;
+            font-size:18px;
+            
+        }
+
+        .form-entry {
+            height: 35px;
+            margin-bottom: 5px;
+            border-color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        .form-entry:focus {
+            border-color: #AA36A3;
+            outline: #AA36A3;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #title {
+            font-weight: 550;
+        }
+
+        #form-content {
+            min-height: 150px;
+        }
+
+        #error-text {
+            height: 40px;
         }
 
         #hidden-container {
@@ -77,59 +136,6 @@
             color: white;
         }
 
-        #form-container {
-            justify-content: start;
-            text-align: start;
-            width: 40%;
-            height: 85%;
-
-            display: flex;
-            flex-direction: column;
-
-            position:absolute;
-            right: 30%;
-            left: 30%;
-            top: 60px;
-        }
-
-        .form-label {
-            margin-top: 10%;
-            margin-bottom: 5%;
-            color: #333333;
-            font-size:18px;
-        }
-
-        .form-entry {
-            height: 35px;
-            margin-bottom: 10%;
-            border-color: white;
-            outline: none;
-        }
-
-        .form-entry:focus {
-            height: 35px;
-            margin-bottom: 10%;
-            border-color: #AA36A3;
-            outline: #AA36A3;
-        }
-
-        form {
-            height: 70%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-button {
-            position:absolute;
-            right: 5%;
-            left: 5%;
-            bottom: 40px;
-        }
-
-        #title {
-            font-weight: 550;
-        }
-
     </style>
 </head>
 <body>
@@ -148,16 +154,19 @@
         <div id="form-container">
             <form method="post">
                 {% csrf_token %}
-                <label for="id_username"  class="form-label">Username</label>
-                <input type="text" name="username" id="id_username" class="form-entry">
-                <label for="id_password" class="form-label">Password</label>
-                <input type="password" name="password" id="id_password"  class="form-entry">
-                <input type="submit" value="Login" class="form-button"> 
-                {% if form.errors %}
-                    <div>
-                        <p>Your username or password is incorrect.</p>
+                <div id="#form-content">
+                    <label for="id_username"  class="form-label">Username</label>
+                    <input type="text" name="username" id="id_username" class="form-entry">
+                    <label for="id_password" class="form-label">Password</label>
+                    <input type="password" name="password" id="id_password"  class="form-entry">
+                </div>
+                
+                    <div id="error-text">
+                        {% if form.errors %}
+                        <p >Your username or password is incorrect.</p>
+                        {% endif %}
                     </div>
-                {% endif %}
+                <input type="submit" value="Login" class="form-button">
             </form>
         </div>
     </div>
