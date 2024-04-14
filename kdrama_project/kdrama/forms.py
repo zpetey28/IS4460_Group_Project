@@ -1,5 +1,6 @@
 from django import forms
 from .models import Movie, Actor, Award, Director, Studio, Purchase
+from datetime import datetime
 
 class MovieForm(forms.ModelForm):
     director = forms.ModelChoiceField(queryset=Director.objects.all())
@@ -51,6 +52,15 @@ class StudioForm(forms.ModelForm):
 
 class PurchaseForm(forms.ModelForm):
     kdrama = forms.ModelChoiceField(queryset=Movie.objects.all())
+
+    class Meta:
+        model = Movie
+        fields = ['kdrama']
+
+class MovieReportForm(forms.ModelForm):
+    kdrama = forms.ModelChoiceField(queryset=Movie.objects.all())
+    start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    end_date = forms.DateField(initial=datetime.now, widget=forms.DateInput(attrs={'type': 'date'}), )
 
     class Meta:
         model = Movie

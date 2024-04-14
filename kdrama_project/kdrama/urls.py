@@ -10,7 +10,7 @@ from .views import (MovieListView, MovieDetailView, MovieCreateView,
                     DirectorDetailView,
                     StudioListView, StudioCreateView, StudioUpdateView, StudioDeleteView, PurchaseCreateView,
                     PurchaseConfirmationView, UserPurchasesView,
-                    ReportHomeView, CustomerSalesReportView)
+                    ReportHomeView, CustomerSalesReportView, MovieSalesReportView)
 
 
 urlpatterns = [
@@ -72,7 +72,7 @@ urlpatterns = [
 
     #report URLs
     path('reports/home', ReportHomeView.as_view(), name='report-home'),
-    path('reports/kdrama-sales', ReportHomeView.as_view(), name='report-movie-sales'),
+    path('reports/kdrama-sales', MovieSalesReportView.as_view(), name='report-movie-sales'),
     path('reports/customer-sales', CustomerSalesReportView.as_view(), name='report-customer-sales'),
     path('reports/kdrama-awards', ReportHomeView.as_view(), name='report-movie-awards'),
     path('reports/kdrama-actors', ReportHomeView.as_view(), name='report-movie-actors'),

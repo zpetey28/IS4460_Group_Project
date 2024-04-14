@@ -70,12 +70,7 @@ body::after {
 }
 
 .form-button:hover {
-    font-weight: bold;
     background-image: linear-gradient(to right, #BB47B4, #DA6D97);
-    height: 40px;
-    width: 170px;
-    border: none;
-    font-size:18px;
 }
 
 .form-button:disabled {

@@ -2,7 +2,8 @@ from typing import Any
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from .models import Movie, Actor, Award, Director, Studio, Purchase
-from .forms import MovieForm, AddActorForm, AddMovieForm, ActorForm, AwardForm, DirectorForm, StudioForm, PurchaseForm, AwardGetForm
+from .forms import (MovieForm, AddActorForm, AddMovieForm, ActorForm, AwardForm, DirectorForm, 
+                    StudioForm, PurchaseForm, AwardGetForm, MovieReportForm)
 from .serializers import MovieSerializer
 from rest_framework import generics
 from django.views import View
@@ -433,9 +434,40 @@ class CustomerSalesReportView(LoginRequiredMixin, View):
 
         user_list = Purchase.objects.values('user__username').annotate(total_sales=Sum('total'), num_orders=Count('purchase_id'))
         user_list = sorted(user_list, key=lambda x: x['total_sales'], reverse=True)
-        print(user_list)
 
         context = {'users':user_list}
+        
+        return render(request, self.template_name, context)
+
+class MovieSalesReportView(LoginRequiredMixin, View):
+    template_name = 'reports/movie_sales.html'
+
+    def get(self, request):
+
+        form = MovieReportForm()
+
+        context = {'form':form}
+        
+        return render(request, self.template_name, context)
+    
+    def post(self, request):
+
+        form = MovieReportForm(request.POST)
+
+        if form.is_valid():
+            kdrama = form.cleaned_data.get('kdrama')
+            start_date = form.cleaned_data.get('start_date')
+            end_date = form.cleaned_data.get('end_date')
+
+            kdrama_stats = Purchase.objects.filter(movie=kdrama, purchase_date__range=(start_date, end_date))
+            total_revenue = kdrama_stats.aggregate(total_revenue=Sum('total'))['total_revenue']
+            num_orders = kdrama_stats.aggregate(num_orders=Count('purchase_id'))['num_orders']
+
+            total_revenue = total_revenue if total_revenue != None else 0
+
+            context = {'form':form, 'kdrama':kdrama, 'num_orders':num_orders, 'total_revenue':total_revenue}
+        else:
+            context = {'form':form}
         
         return render(request, self.template_name, context)
 

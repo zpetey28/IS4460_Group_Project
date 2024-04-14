@@ -16,7 +16,6 @@ class Studio(models.Model):
     founded = models.DateField()
     owner = models.CharField(max_length=100)
 
-
     def __str__(self):
         return self.name
 
