@@ -5,7 +5,9 @@ from .views import (MovieListView, MovieDetailView, MovieCreateView,
                     MovieRetrieveUpdateDestroyAPIView, ActorListView, ActorCreateView, 
                     ActorDeleteView, ActorUpdateView, AwardListView, AwardDeleteView, 
                     AwardCreateView, AwardUpdateView, ActorDetailView, MovieAddActorView,
-                    MovieRemoveActorView, ActorAddMovieView, MovieAwardsReportView, DramaActorsReportView)
+                    MovieRemoveActorView, ActorAddMovieView, MovieAwardsReportView, DramaActorsReportView, 
+                    DirectorListView, DirectorCreateView, DirectorUpdateView, DirectorDeleteView, 
+                    StudioListView, StudioCreateView, StudioUpdateView, StudioDeleteView, PurchaseCreateView)
 
 
 urlpatterns = [
