@@ -178,6 +178,16 @@
         #purchase-button:hover {
             text-decoration: none;
         }
+
+        #director-link {
+            text-decoration: none;
+            color:#333333;
+        }
+
+        #director-link:hover {
+            text-decoration: none;
+            color:#333333;
+        }
     </style>
 </head>
 <body>
@@ -228,7 +238,7 @@
         <hr>
         <div id="kdrama-descriptions">
             <div class="description-item">
-                <p>Director: {{ kdrama.director }}</p>
+                <a href="{% url 'director-details' kdrama.director.director_id %}" id="director-link"><p>Director: {{ kdrama.director }}</p></a>
             </div>
             <div class="description-item">
                 <p>Release Year: {{ kdrama.release_year }}</p>
