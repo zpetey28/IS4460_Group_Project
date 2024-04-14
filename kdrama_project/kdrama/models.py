@@ -47,7 +47,9 @@ class Movie(models.Model):
     studio = models.ForeignKey(Studio, on_delete=models.CASCADE,default=1)
     release_year = models.IntegerField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    runtime = models.IntegerField(blank=True, null=True) # runtime in minutes
+    episode_length = models.IntegerField(blank=True, null=True) # runtime in minutes
+    seasons = models.IntegerField(default=1, null=True)
+    episodes = models.IntegerField(default=1, null=True)
     rating = models.CharField(max_length=50, blank=True)
     genre = models.CharField(max_length=50, blank=True)
     image_url = models.URLField(blank=True)
