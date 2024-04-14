@@ -74,6 +74,14 @@
             flex: 1;
         }
 
+        #alt-pattern {
+            background-image: linear-gradient(to left, #AA36A3, #C95C86);;
+        }
+
+        #alt-pattern:hover {
+            background-image: linear-gradient(to left, #BB47B4, #DA6D97);;
+        }
+
     </style>
 </head>
 <body>
@@ -128,7 +136,7 @@
                 <div id="navitem">
                     <h3>Customer Revenue Report</h3>
                     <a href="{% url 'report-customer-sales' %}" id="button-styles">
-                        <div class="button">
+                        <div class="button" id="alt-pattern">
                             Go
                         </div>
                     </a>
@@ -146,7 +154,7 @@
                 <div id="navitem">
                     <h3>Actors for K-Drama Report</h3>
                     <a href="{% url 'report-movie-actors' %}" id="button-styles">
-                        <div class="button">
+                        <div class="button" id="alt-pattern">
                             Go
                         </div>
                     </a>

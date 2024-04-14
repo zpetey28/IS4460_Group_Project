@@ -471,6 +471,40 @@ class MovieSalesReportView(LoginRequiredMixin, View):
         
         return render(request, self.template_name, context)
 
+class MovieActorListReportView(LoginRequiredMixin, View):
+    template_name = 'reports/actor_list.html'
+
+    def get(self, request):
+
+        form = PurchaseForm()
+
+        context = {'form':form}
+        
+        return render(request, self.template_name, context)
+    
+    def post(self, request):
+
+        form = PurchaseForm(request.POST)
+
+        if form.is_valid():
+            kdrama = form.cleaned_data.get('kdrama')
+
+            context = {'form':form, 'kdrama':kdrama}
+        else:
+            context = {'form':form}
+        
+        return render(request, self.template_name, context)
+
+class MovieAwardListReportView(LoginRequiredMixin, View):
+    template_name = 'reports/movie_awards.html'
+
+    def get(self, request):
+
+        kdramas = Movie.objects.exclude(awards__isnull=True)
+        context = {'kdramas':kdramas}
+        
+        return render(request, self.template_name, context)
+
 # Director Views
 class DirectorListView(LoginRequiredMixin, View):
     template_name = 'directors/director_list.html'
