@@ -592,50 +592,91 @@ class DirectorDeleteView(LoginRequiredMixin, DeleteView):
         return redirect(reverse('director-list'))
 
 # Studio Views
-class StudioListView(LoginRequiredMixin, ListView):
-    model = Studio
-    template_name = 'studios/studio_list.html'
+class StudioListView(LoginRequiredMixin, View):
+    template_name = 'studio/studio_list.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Studios List'
-        context['description'] = 'View all studios here.'
-        return context
+    def get(self, request):
+        studios = Studio.objects.all()
 
-class StudioCreateView(LoginRequiredMixin, CreateView):
-    model = Studio
-    form_class = StudioForm
-    template_name = 'studios/studio_form.html'
-    success_url = reverse_lazy('studio-list')
+        context = {'studios':studios}
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Add New Studio'
-        context['description'] = 'Enter details to add a new studio.'
-        return context
+        return render(request, self.template_name, context)
 
-class StudioUpdateView(LoginRequiredMixin, UpdateView):
-    model = Studio
-    form_class = StudioForm
-    template_name = 'studios/studio_form.html'
-    success_url = reverse_lazy('studio-list')
+class StudioCreateView(LoginRequiredMixin, View):
+    template_name = 'studio/studio_form.html'
+    action = "Add"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Edit Studio'
-        context['description'] = 'Update studio details.'
-        return context
+    def get(self, request):
+        studio_form = StudioForm()
+        context = {'form': studio_form, 'action': self.action}
+        return render(request, template_name=self.template_name, context=context)
 
-class StudioDeleteView(LoginRequiredMixin, DeleteView):
-    model = Studio
-    template_name = 'studios/studio_confirm_delete.html'
-    success_url = reverse_lazy('studio-list')
+    def post(self, request):
+        studio_form = StudioForm(request.POST)
+        if studio_form.is_valid():
+            studio_form.save()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Delete Studio'
-        context['description'] = 'Confirm deletion of this studio.'
-        return context
+            return redirect(reverse('studio-list'))
+        
+        context = {'form': studio_form, 'action': self.action}
+
+        return render(request, template_name=self.template_name, context=context)
+
+class StudioDetailView(LoginRequiredMixin, View):
+    template_name = 'studio/studio_details.html'
+
+    def get(self, request, studio_id=None):
+        if studio_id:
+            studio = Studio.objects.get(studio_id=studio_id)
+        else:
+            studio = Studio()
+
+        kdramas = Movie.objects.filter(studio=studio)
+
+        context = {'studio':studio, 'kdramas':kdramas}
+
+        return render(request, self.template_name, context=context)
+
+class StudioUpdateView(LoginRequiredMixin, View):
+    template_name = 'studio/studio_form.html'
+    action = "Update"
+
+    def get(self, request, studio_id):
+        studio = get_object_or_404(Studio, pk=studio_id)
+        studio_form = StudioForm(instance=studio)
+        context = {'form': studio_form, 'action': self.action}
+        return render(request, template_name=self.template_name, context=context)
+
+    def post(self, request, studio_id):
+        studio = get_object_or_404(Studio, pk=studio_id)
+        studio_form = StudioForm(request.POST, instance=studio)
+        if studio_form.is_valid():
+            studio_form.save()
+            return redirect(reverse('studio-details') + str(studio_id))
+        context = {'form': studio_form, 'action': self.action}
+        return render(request, template_name=self.template_name, context=context)
+
+
+class StudioDeleteView(LoginRequiredMixin, View):
+    template_name = "studio/studio_form.html"
+    action = "Delete"
+
+    def get(self, request, studio_id):
+        studio = get_object_or_404(Studio, pk=studio_id)
+
+        studio_form = StudioForm(instance=studio)
+
+        for field in studio_form.fields:
+            studio_form.fields[field].widget.attrs['disabled'] = True
+
+        context = {'form':studio_form, 'action':'Delete'}
+        return render(request, template_name=self.template_name, context=context)
+
+    def post(self, request, studio_id):
+        studio = get_object_or_404(Studio, pk=studio_id)
+        studio.delete()
+        return redirect(reverse('studio-list'))
+
 
 # Purchase Views
 class PurchaseCreateView(LoginRequiredMixin, View):

@@ -8,8 +8,8 @@ from .views import (MovieListView, MovieDetailView, MovieCreateView,
                     MovieRemoveActorView, ActorAddMovieView,
                     DirectorListView, DirectorCreateView, DirectorUpdateView, DirectorDeleteView, 
                     DirectorDetailView,
-                    StudioListView, StudioCreateView, StudioUpdateView, StudioDeleteView, PurchaseCreateView,
-                    PurchaseConfirmationView, UserPurchasesView,
+                    StudioListView, StudioCreateView, StudioUpdateView, StudioDeleteView, StudioDetailView,
+                    PurchaseCreateView, PurchaseConfirmationView, UserPurchasesView,
                     ReportHomeView, CustomerSalesReportView, MovieSalesReportView, MovieActorListReportView,
                     MovieAwardListReportView)
 
@@ -61,9 +61,11 @@ urlpatterns = [
 
     # Studio URLs
     path('studios/', StudioListView.as_view(), name='studio-list'),
+    path('studios/details/<int:studio_id>', StudioDetailView.as_view(), name='studio-details'),
+    path('studios/details/', StudioDetailView.as_view(), name='studio-details'),
     path('studios/add/', StudioCreateView.as_view(), name='studio-add'),
-    path('studios/<int:pk>/update/', StudioUpdateView.as_view(), name='studio-update'),
-    path('studios/<int:pk>/delete/', StudioDeleteView.as_view(), name='studio-delete'),
+    path('studios/update/<int:studio_id>/', StudioUpdateView.as_view(), name='studio-update'),
+    path('studios/delete/<int:studio_id>/', StudioDeleteView.as_view(), name='studio-delete'),
 
     # Purchase URLs
     path('details/purchase/<int:kdrama_id>/', PurchaseCreateView.as_view(), name='purchase'),

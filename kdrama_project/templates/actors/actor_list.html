@@ -17,6 +17,7 @@
 
     <div class="container">
         <h1 id="title">Actors</h1>
+        <hr style="width:100%">
         <div id="person-array">
             {% for actor in actors %}
                 <a href="{% url 'actor-details' actor.actor_id %}" id="button-styles">

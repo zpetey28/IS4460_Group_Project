@@ -17,6 +17,7 @@
 
     <div class="container">
         <h1 id="title">Directors</h1>
+        <hr style="width:100%">
         <div id="person-array">
             {% for director in directors %}
                 <a href="{% url 'director-details' director.director_id %}" id="button-styles">
