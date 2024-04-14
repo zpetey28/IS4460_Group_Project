@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+    <title>Customer Revenue Report</title>
+    <style>
+        body {
+            min-height: 100vh;
+            position: relative;
+            top:0;
+        }
+
+        body::after {
+            content: '';
+            display: block;
+            height: 50px;
+        }
+
+        .container {
+            width: 80vw;
+            height:fit-content;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            top: 10px;
+            margin-top: 20px;
+            margin-bottom: 50px;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 90px;
+        }
+
+        #title {
+            position: absolute;
+            top: 5px;
+            right: 25%;
+            left: 25%;
+            width: 50%;
+            font-weight: 700;
+        }
+
+        #report-pane {
+            width: 100%;
+        }
+
+        #button-styles {
+            text-decoration: none;
+        }
+
+        #button-styles:hover {
+            text-decoration: none;
+        }
+
+        #report-item {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #report-text {
+            width: 33%;
+            text-align: start;
+        }
+
+        #back-button {
+            width: 150px;
+            height: 30px;
+            position: absolute;
+            top:15px;
+            left:15px;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+	<nav class="navbar navbar-light" id="remove-spacing">
+        <div class="heading">
+          <div class="navbar-header">
+             <a class="text-white navbar-brand" id="home-link" href="{% url 'movie-list' %}">K-Dramas</a>
+          </div>
+
+          <p id="greeting">Hello, {{user.username}}</h2>
+
+          <div class="dropdown" id="text-white">
+            <span>Profile</span>
+            <div class="dropdown-content">
+                <div id="dropdown-item">
+                    <form action="{% url 'logout' %}" method="post">
+                        {%csrf_token%}
+                        <button type="submit" id="logout-button">Logout</button>
+                    </form>
+                </div>
+
+                <a href="{%url 'actor-list'%}" id="dropdown-link"><div id="dropdown-item">
+                    Actor List
+                </div></a>
+
+                <a href="{%url 'actor-add'%}" id="dropdown-link"><div id="dropdown-item">
+                    Add Actor
+                </div></a>
+
+                <a href="{%url 'movie-add'%}" id="dropdown-link"><div id="dropdown-item">
+                    Add K-Drama
+                </div></a>
+            </div>
+          </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <a href="{% url 'report-home' %}" id="button-styles">
+            <div class="button" id="back-button">
+                < Report Homepage
+            </div>
+        </a>
+        <h1 id="title">Customer Revenue Report</h1>
+        <hr style="width: 100%;">
+        <div id="report-pane">
+            <div id="report-item">
+                <p id="report-text">Username</p>
+                <p id="report-text">Number of Orders</p>
+                <p id="report-text">Total Revenue</p>
+            </div>
+            <hr style="width: 100%;">
+            {% for user in users %}
+                <div id="report-item">
+                    <p id="report-text">{{user.user__username}}</p>
+                    <p id="report-text">{{user.num_orders}}</p>
+                    <p id="report-text">${{user.total_sales}}</p>
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+
+    <div class="footer" id="bootstrap-override">
+        <p id="footer-title">K-Drama App</h4>
+        <p id="footer-info">© Group 12 Isaac Ahlborn, Daniel Myers, Zack Peterson, Stone Pollock, Matt Young</h4>
+    </div>
+</body>
+</html>

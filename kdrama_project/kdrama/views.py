@@ -11,6 +11,7 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from django.db.models import Count
 from django.contrib.auth.models import User
+from django.db.models import Sum, Count
 
 class MovieListCreateAPIView(generics.ListCreateAPIView):
     queryset = Movie.objects.all()
@@ -417,51 +418,26 @@ class DramaActorsListView(LoginRequiredMixin, ListView):
         context['title'] = 'List of Actors in Drama'
         context['description'] = 'View all actors in this drama.'
         return context
+    
+class ReportHomeView(LoginRequiredMixin, View):
+    template_name = 'reports/report_home.html'
 
-class TopSalesReportView(LoginRequiredMixin, ListView):
-    model = User
-    template_name = 'top_sales_report.html'
-    context_object_name = 'top_users'
+    def get(self, request):
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.annotate(total_sales=Count('purchase')).order_by('-total_sales')[:10]
+        return render(request, self.template_name)
+    
+class CustomerSalesReportView(LoginRequiredMixin, View):
+    template_name = 'reports/customer_sales.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Top Sales Report'
-        context['description'] = 'View top users based on sales.'
-        return context
+    def get(self, request):
 
-class DramaAwardsReportView(LoginRequiredMixin, ListView):
-    model = Movie
-    template_name = 'movie_awards_report.html'
-    context_object_name = 'movies'
+        user_list = Purchase.objects.values('user__username').annotate(total_sales=Sum('total'), num_orders=Count('purchase_id'))
+        user_list = sorted(user_list, key=lambda x: x['total_sales'], reverse=True)
+        print(user_list)
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(awards__isnull=False)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Movie Awards Report'
-        context['description'] = 'View movies that have received awards.'
-        return context
-
-class SalesOverTimeReportView(LoginRequiredMixin, ListView):
-    model = Purchase
-    template_name = 'sales_over_time_report.html'
-    context_object_name = 'purchases'
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.order_by('purchase_date')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Sales Over Time Report'
-        context['description'] = 'View sales of movies over time.'
-        return context
+        context = {'users':user_list}
+        
+        return render(request, self.template_name, context)
 
 # Director Views
 class DirectorListView(LoginRequiredMixin, View):
