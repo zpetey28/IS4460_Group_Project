@@ -188,6 +188,42 @@
             text-decoration: none;
             color:#333333;
         }
+
+        #award-view {
+            display:flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            width: 100%;
+            height: 140px;
+        }
+
+        #award-pane {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+
+            width:20%;
+            background-color: #777777;
+            border-right: 1px solid black;
+        }
+
+        #award-pane:hover {
+            text-decoration: none;
+            color: #333333;
+            background-color: white;
+        }
+
+        #award-name {
+            color:white;
+            margin: 0px;
+        }
+
+        #award-name:hover {
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -274,6 +310,23 @@
         <br>
         <a href="{% url 'movie-remove-actor' kdrama.movie_id %}" id="button-styles"><div class="button">
             - Remove Actor
+        </div></a>
+        <hr>
+        <h2 id="section-title">Awards</h2>
+        <div id="award-view">
+            {% for award in kdrama.awards.all %}
+                <a id="award-pane" href="{% url 'award-update' kdrama.movie_id award.award_id %}">
+                    <span class="glyphicon glyphicon-star" style="color:yellow; font-size: 30px;"></span>
+                    <p id="award-name">{{award}}</p>
+                </a>
+            {% endfor %}
+            <a href="{% url 'award-add' kdrama.movie_id %}" id="add-actor-button">
+                +<br>Add<br>Award
+            </a>
+        </div>
+        <br>
+        <a href="{% url 'award-delete' kdrama.movie_id %}" id="button-styles"><div class="button">
+            - Remove Award
         </div></a>
         <hr>
         {% if kdrama.youtube_url %}

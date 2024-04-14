@@ -3,7 +3,7 @@ from django.contrib.auth.views import LoginView
 from .views import (MovieListView, MovieDetailView, MovieCreateView, 
                     MovieUpdateView, MovieDeleteView, MovieListCreateAPIView, 
                     MovieRetrieveUpdateDestroyAPIView, ActorListView, ActorCreateView, 
-                    ActorDeleteView, ActorUpdateView, AwardListView, AwardDeleteView, 
+                    ActorDeleteView, ActorUpdateView, AwardDeleteView, 
                     AwardCreateView, AwardUpdateView, ActorDetailView, MovieAddActorView,
                     MovieRemoveActorView, ActorAddMovieView,
                     DirectorListView, DirectorCreateView, DirectorUpdateView, DirectorDeleteView, 
@@ -44,11 +44,9 @@ urlpatterns = [
     path('actor/details/<int:actor_id>/add-movie/', ActorAddMovieView.as_view(), name='actor-add-movie'),
 
     #Award urls
-    path('movie/<int:movie_id>/awards/', AwardListView.as_view(), name='movie-awards-list'),
-    path('movie/<int:movie_id>/awards/add/', AwardCreateView.as_view(), name='movie-award-add'),
-    path('movie/<int:movie_id>/awards/<int:award_id>/update/', AwardUpdateView.as_view(), name='movie-award-update'),
-    path('movie/<int:movie_id>/awards/<int:award_id>/delete/', AwardDeleteView.as_view(), name='movie-award-delete'),
-
+    path('details/<int:movie_id>/award/add/', AwardCreateView.as_view(), name='award-add'),
+    path('movie/<int:movie_id>/award/update/<int:award_id>/', AwardUpdateView.as_view(), name='award-update'),
+    path('details/<int:movie_id>/award/delete/', AwardDeleteView.as_view(), name='award-delete'),
 
 
     #director URLs

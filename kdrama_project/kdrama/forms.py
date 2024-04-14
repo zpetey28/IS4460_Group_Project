@@ -32,6 +32,13 @@ class AwardForm(forms.ModelForm):
         model = Award
         fields = ['name']
 
+class AwardGetForm(forms.ModelForm):
+    award = forms.ModelChoiceField(queryset=Award.objects.all())
+
+    class Meta:
+        model = Award
+        fields = ['award']
+
 class DirectorForm(forms.ModelForm):
     class Meta:
         model = Director

@@ -2,7 +2,7 @@ from typing import Any
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from .models import Movie, Actor, Award, Director, Studio, Purchase
-from .forms import MovieForm, AddActorForm, AddMovieForm, ActorForm, AwardForm, DirectorForm, StudioForm, PurchaseForm
+from .forms import MovieForm, AddActorForm, AddMovieForm, ActorForm, AwardForm, DirectorForm, StudioForm, PurchaseForm, AwardGetForm
 from .serializers import MovieSerializer
 from rest_framework import generics
 from django.views import View
@@ -327,71 +327,80 @@ class ActorDeleteView(LoginRequiredMixin, View):
         actor = get_object_or_404(Actor, pk=actor_id)
         actor.delete()
         return redirect(reverse('actor-list'))
-    
-
-class AwardListView(LoginRequiredMixin, View):
-    template_name = 'awards/award_list.html'
-
-    def get(self, request, movie_id=None):
-        if movie_id is not None:
-            movie = get_object_or_404(Movie, pk=movie_id)
-            awards = movie.awards.all()
-            context = {'awards': awards, 'movie': movie}
-            return render(request, self.template_name, context)
-        else:
-            return HttpResponse("Movie ID is required.")
 
 class AwardCreateView(LoginRequiredMixin, View):
     template_name = 'awards/award_form.html'
+    action = "Add"
 
     def get(self, request, movie_id):
+        kdrama = get_object_or_404(Movie, pk=movie_id)
+
         form = AwardForm()
-        context = {'form': form}
+        context = {'form': form, 'kdrama':kdrama, 'action':self.action}
         return render(request, self.template_name, context)
 
     def post(self, request, movie_id):
+        kdrama = get_object_or_404(Movie, pk=movie_id)
+
         form = AwardForm(request.POST)
         if form.is_valid():
             award = form.save(commit=False)
             award.save()
-            movie = get_object_or_404(Movie, pk=movie_id)
-            movie.awards.add(award)
-            return redirect('movie-awards-list', movie_id=movie_id)
-        else:
-            context = {'form': form}
-            return render(request, self.template_name, context)
+            
+            kdrama.awards.add(award)
+            return redirect(reverse('movie-details') + str(movie_id))
+        
+        context = {'form': form, 'kdrama':kdrama, 'action':self.action}
+        return render(request, self.template_name, context)
 
 class AwardUpdateView(LoginRequiredMixin, View):
     template_name = 'awards/award_form.html'
+    action = "Update"
 
     def get(self, request, movie_id, award_id):
+        kdrama = get_object_or_404(Movie, pk=movie_id)
         award = get_object_or_404(Award, pk=award_id)
+
         form = AwardForm(instance=award)
-        context = {'form': form}
+        context = {'form': form, 'kdrama':kdrama, 'action':self.action}
         return render(request, self.template_name, context)
 
     def post(self, request, movie_id, award_id):
+        kdrama = get_object_or_404(Movie, pk=movie_id)
         award = get_object_or_404(Award, pk=award_id)
+
         form = AwardForm(request.POST, instance=award)
         if form.is_valid():
-            form.save()
-            return redirect('movie-awards-list', movie_id=movie_id)
-        else:
-            context = {'form': form}
-            return render(request, self.template_name, context)
-
-class AwardDeleteView(LoginRequiredMixin, View):
-    template_name = 'awards/award_confirm_delete.html'
-
-    def get(self, request, movie_id, award_id):
-        award = get_object_or_404(Award, pk=award_id)
-        context = {'award': award}
+            award = form.save(commit=False)
+            award.save()
+            
+            return redirect(reverse('movie-details') + str(movie_id))
+        
+        context = {'form': form, 'kdrama':kdrama, 'action':self.action}
         return render(request, self.template_name, context)
 
-    def post(self, request, movie_id, award_id):
-        award = get_object_or_404(Award, pk=award_id)
-        award.delete()
-        return redirect('movie-awards-list', movie_id=movie_id)
+class AwardDeleteView(LoginRequiredMixin, View):
+    template_name = 'awards/award_form.html'
+    action = 'Delete'
+
+    def get(self, request, movie_id):
+        kdrama = get_object_or_404(Movie, pk=movie_id)
+        form = AwardGetForm()
+        form.fields['award'].queryset = kdrama.awards
+
+        context = {'form': form, 'action':self.action}
+        return render(request, self.template_name, context)
+
+    def post(self, request, movie_id):
+        kdrama = get_object_or_404(Movie, pk=movie_id)
+        form = AwardGetForm(request.POST)
+        form.fields['award'].queryset = kdrama.awards
+
+        if form.is_valid():
+            award = form.cleaned_data.get('award')
+            award.delete()
+
+        return redirect(reverse('movie-details') + str(movie_id))
 
 class DramaActorsListView(LoginRequiredMixin, ListView):
     model = Movie

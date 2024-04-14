@@ -1,45 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
-    <title>Create or Update Award</title>
+    <title>Add Actor</title>
     <style>
         body {
-            padding-top: 50px;
+            min-height: 100vh;
+            position: relative;
+            top:0;
+        }
+
+        body::after {
+            content: '';
+            display: block;
+            height: 50px;
         }
 
         .container {
-            width: 40%;
-            height: 500px;
-            margin-left: 30%;
-            margin-right: 30%;
-            padding-top: 15px;
-
+            width: 600px;
+            height:fit-content;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            top: 10px;
+            margin-top: 100px;
+            margin-bottom: 50px;
+            
             display: flex;
             flex-direction: column;
             justify-content: center;
             text-align: center;
+            padding: 90px;
         }
 
-        h1 {
+        #title {
             position: absolute;
-            top: 55px;
+            top: 5px;
             right: 25%;
             left: 25%;
             width: 50%;
+            font-weight: 700;
         }
+
+        .form-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #form-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: start;
+                width: 300px;
+                font-weight: bold;
+
+                margin-left:60px;
+                margin-right:60px;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            input {
+                width:100%;
+                height: 30px;
+                border-color: white;
+                outline: none;
+            }
+
+            input:focus {
+                border-color: #AA36A3;
+                outline: #AA36A3;
+            }
+
+            
+            select {
+                width:100%;
+                height: 30px;
+                border-color: white;
+                outline: none;
+            }
+
+            select:focus {
+                border-color: #AA36A3;
+                outline: #AA36A3;
+            }
+
+            ul {
+                list-style-type: none;
+                padding: 0px;
+                margin: 0px;
+            }
+
     </style>
 </head>
 <body>
+    <!-- Navbar -->
+	<nav class="navbar navbar-light" id="remove-spacing">
+        <div class="heading">
+          <div class="navbar-header">
+             <a class="text-white navbar-brand" id="home-link" href="{% url 'movie-list' %}">K-Dramas</a>
+          </div>
+
+          <p id="greeting">Hello, {{user.username}}</h2>
+
+          <div class="dropdown" id="text-white">
+            <span>Profile</span>
+            <div class="dropdown-content">
+                <div id="dropdown-item">
+                    <form action="{% url 'logout' %}" method="post">
+                        {%csrf_token%}
+                        <button type="submit" id="logout-button">Logout</button>
+                    </form>
+                </div>
+
+                <a href="{%url 'actor-list'%}" id="dropdown-link"><div id="dropdown-item">
+                    Actor List
+                </div></a>
+
+                <a href="{%url 'actor-add'%}" id="dropdown-link"><div id="dropdown-item">
+                    Add Actor
+                </div></a>
+
+                <a href="{%url 'movie-add'%}" id="dropdown-link"><div id="dropdown-item">
+                    Add K-Drama
+                </div></a>
+            </div>
+          </div>
+        </div>
+    </nav>
+    
     <div class="container">
-        <h1>{{ action }} Award</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Submit</button>
-        </form>
+        <h1 id="title">{{ action }} Award</h1>
+        <div id="form-content">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="form-button">{{ action }}</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer" id="bootstrap-override">
+        <p id="footer-title">K-Drama App</h4>
+        <p id="footer-info">© Group 12 Isaac Ahlborn, Daniel Myers, Zack Peterson, Stone Pollock, Matt Young</h4>
     </div>
 </body>
 </html>
