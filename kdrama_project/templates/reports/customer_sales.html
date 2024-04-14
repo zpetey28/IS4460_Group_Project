@@ -80,40 +80,7 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-	<nav class="navbar navbar-light" id="remove-spacing">
-        <div class="heading">
-          <div class="navbar-header">
-             <a class="text-white navbar-brand" id="home-link" href="{% url 'movie-list' %}">K-Dramas</a>
-          </div>
-
-          <p id="greeting">Hello, {{user.username}}</h2>
-
-          <div class="dropdown" id="text-white">
-            <span>Profile</span>
-            <div class="dropdown-content">
-                <div id="dropdown-item">
-                    <form action="{% url 'logout' %}" method="post">
-                        {%csrf_token%}
-                        <button type="submit" id="logout-button">Logout</button>
-                    </form>
-                </div>
-
-                <a href="{%url 'actor-list'%}" id="dropdown-link"><div id="dropdown-item">
-                    Actor List
-                </div></a>
-
-                <a href="{%url 'actor-add'%}" id="dropdown-link"><div id="dropdown-item">
-                    Add Actor
-                </div></a>
-
-                <a href="{%url 'movie-add'%}" id="dropdown-link"><div id="dropdown-item">
-                    Add K-Drama
-                </div></a>
-            </div>
-          </div>
-        </div>
-    </nav>
+    {% include '../blocks/header.html' %}
     
     <div class="container">
         <a href="{% url 'report-home' %}" id="button-styles">
