@@ -33,12 +33,12 @@ class AwardForm(forms.ModelForm):
 class DirectorForm(forms.ModelForm):
     class Meta:
         model = Director
-        fields = "all"
+        fields = "__all__"
 
 class StudioForm(forms.ModelForm):
     class Meta:
         model = Studio
-        fields = "all"
+        fields = "__all__"
 
 class PurchaseForm(forms.ModelForm):
     class Meta:
