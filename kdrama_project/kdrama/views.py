@@ -9,6 +9,8 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
+from django.db.models import Count
+from django.contrib.auth.models import User
 
 class MovieListCreateAPIView(generics.ListCreateAPIView):
     queryset = Movie.objects.all()
@@ -390,46 +392,67 @@ class AwardDeleteView(LoginRequiredMixin, View):
         award = get_object_or_404(Award, pk=award_id)
         award.delete()
         return redirect('movie-awards-list', movie_id=movie_id)
-    
-class MovieAwardsReportView(ListView):
+
+class DramaActorsListView(LoginRequiredMixin, ListView):
     model = Movie
-    template_name = 'movie_awards_report.html'
+    template_name = 'drama_actors_list.html'
+    context_object_name = 'movie'
 
     def get_queryset(self):
-        return super().get_queryset().filter(awards__isnull=False).prefetch_related('awards')
-
-'''
-class TopSalesReportView(ListView):
-    model = Customer
-    template_name = 'top_sales_report.html'
-    context_object_name = 'top_customers'
-
-    def get_queryset(self):
-        return super().get_queryset().annotate(total_sales=Count('sales')).order_by('-total_sales')[:10]'''
-
-class DramaActorsReportView(ListView):
-    model = Movie
-    template_name = 'drama_actors_report.html'
-
-    def get_queryset(self):
-        self.movie = get_object_or_404(Movie, id=self.kwargs['movie_id'])
-        return self.movie.actors.all()
+        queryset = super().get_queryset()
+        self.movie_id = self.kwargs['movie_id']
+        return queryset.filter(pk=self.movie_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['movie'] = self.movie
+        context['title'] = 'List of Actors in Drama'
+        context['description'] = 'View all actors in this drama.'
         return context
-    
-'''class DramaSalesOverTimeReportView(ListView):
-    model = Sale
-    template_name = 'drama_sales_over_time_report.html'
-    context_object_name = 'sales'
+
+class TopSalesReportView(LoginRequiredMixin, ListView):
+    model = User
+    template_name = 'top_sales_report.html'
+    context_object_name = 'top_users'
 
     def get_queryset(self):
-        self.movie_id = self.kwargs['movie_id']
-        start_date = self.request.GET.get('start_date')
-        end_date = self.request.GET.get('end_date')
-        return super().get_queryset().filter(movie_id=self.movie_id, date__range=(start_date, end_date))'''
+        queryset = super().get_queryset()
+        return queryset.annotate(total_sales=Count('purchase')).order_by('-total_sales')[:10]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Top Sales Report'
+        context['description'] = 'View top users based on sales.'
+        return context
+
+class DramaAwardsReportView(LoginRequiredMixin, ListView):
+    model = Movie
+    template_name = 'movie_awards_report.html'
+    context_object_name = 'movies'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(awards__isnull=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Movie Awards Report'
+        context['description'] = 'View movies that have received awards.'
+        return context
+
+class SalesOverTimeReportView(LoginRequiredMixin, ListView):
+    model = Purchase
+    template_name = 'sales_over_time_report.html'
+    context_object_name = 'purchases'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.order_by('purchase_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Sales Over Time Report'
+        context['description'] = 'View sales of movies over time.'
+        return context
 
 # Director Views
 class DirectorListView(LoginRequiredMixin, ListView):
