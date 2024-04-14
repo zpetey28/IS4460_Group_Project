@@ -22,9 +22,10 @@ class Studio(models.Model):
 class Actor(models.Model):
     actor_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    date_of_birth = models.DateField()
+    last_name = models.CharField(max_length=100,null=True)
+    date_of_birth = models.DateField(null=True)
     image_url = models.URLField(blank=True, max_length=sys.maxsize)
+    imdb_url = models.URLField(blank=True, max_length=sys.maxsize)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -33,7 +34,7 @@ class Director(models.Model):
     director_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(null=True)
     image_url = models.URLField(blank=True, max_length=sys.maxsize)
 
     def __str__(self):
