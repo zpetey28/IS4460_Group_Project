@@ -1,16 +1,14 @@
 from typing import Any
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
-from .models import Movie
-from .forms import MovieForm, AddActorForm, AddMovieForm
+from django.urls import reverse, reverse_lazy
+from .models import Movie, Actor, Award, Director, Studio, Purchase
+from .forms import MovieForm, AddActorForm, AddMovieForm, ActorForm, AwardForm, DirectorForm, StudioForm, PurchaseForm
 from .serializers import MovieSerializer
 from rest_framework import generics
 from django.views import View
-from .models import Movie, Actor, Award
-from .forms import MovieForm, ActorForm, AwardForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 
 class MovieListCreateAPIView(generics.ListCreateAPIView):
     queryset = Movie.objects.all()
@@ -432,3 +430,112 @@ class DramaActorsReportView(ListView):
         start_date = self.request.GET.get('start_date')
         end_date = self.request.GET.get('end_date')
         return super().get_queryset().filter(movie_id=self.movie_id, date__range=(start_date, end_date))'''
+
+# Director Views
+class DirectorListView(LoginRequiredMixin, ListView):
+    model = Director
+    template_name = 'directors/director_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Directors List'
+        context['description'] = 'View all directors here.'
+        return context
+
+class DirectorCreateView(LoginRequiredMixin, CreateView):
+    model = Director
+    form_class = DirectorForm
+    template_name = 'directors/director_form.html'
+    success_url = reverse_lazy('director-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Add New Director'
+        context['description'] = 'Enter details to add a new director.'
+        return context
+
+class DirectorUpdateView(LoginRequiredMixin, UpdateView):
+    model = Director
+    form_class = DirectorForm
+    template_name = 'directors/director_form.html'
+    success_url = reverse_lazy('director-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Edit Director'
+        context['description'] = 'Update director details.'
+        return context
+
+class DirectorDeleteView(LoginRequiredMixin, DeleteView):
+    model = Director
+    template_name = 'directors/director_confirm_delete.html'
+    success_url = reverse_lazy('director-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Delete Director'
+        context['description'] = 'Confirm deletion of this director.'
+        return context
+
+# Studio Views
+class StudioListView(LoginRequiredMixin, ListView):
+    model = Studio
+    template_name = 'studios/studio_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Studios List'
+        context['description'] = 'View all studios here.'
+        return context
+
+class StudioCreateView(LoginRequiredMixin, CreateView):
+    model = Studio
+    form_class = StudioForm
+    template_name = 'studios/studio_form.html'
+    success_url = reverse_lazy('studio-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Add New Studio'
+        context['description'] = 'Enter details to add a new studio.'
+        return context
+
+class StudioUpdateView(LoginRequiredMixin, UpdateView):
+    model = Studio
+    form_class = StudioForm
+    template_name = 'studios/studio_form.html'
+    success_url = reverse_lazy('studio-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Edit Studio'
+        context['description'] = 'Update studio details.'
+        return context
+
+class StudioDeleteView(LoginRequiredMixin, DeleteView):
+    model = Studio
+    template_name = 'studios/studio_confirm_delete.html'
+    success_url = reverse_lazy('studio-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Delete Studio'
+        context['description'] = 'Confirm deletion of this studio.'
+        return context
+
+# Purchase Views
+class PurchaseCreateView(LoginRequiredMixin, CreateView):
+    model = Purchase
+    form_class = PurchaseForm
+    template_name = 'purchases/purchase_form.html'
+    success_url = reverse_lazy('purchase-list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user  # Automatically assign the logged-in user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'New Purchase'
+        context['description'] = 'Complete the form to make a new purchase.'
+        return context

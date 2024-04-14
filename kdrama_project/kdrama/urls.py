@@ -50,6 +50,21 @@ urlpatterns = [
     #path('top-sales-report/', TopSalesReportView.as_view(), name='top-sales-report'),
     path('drama-actors-report/<int:movie_id>/', DramaActorsReportView.as_view(), name='drama-actors-report'),
     #path('drama-sales-over-time-report/<int:movie_id>/', DramaSalesOverTimeReportView.as_view(), name='drama-sales-over-time-report'),
+
+    #director URLs
+    path('directors/', DirectorListView.as_view(), name='director-list'),
+    path('directors/add/', DirectorCreateView.as_view(), name='director-add'),
+    path('directors/<int:pk>/update/', DirectorUpdateView.as_view(), name='director-update'),
+    path('directors/<int:pk>/delete/', DirectorDeleteView.as_view(), name='director-delete'),
+
+    # Studio URLs
+    path('studios/', StudioListView.as_view(), name='studio-list'),
+    path('studios/add/', StudioCreateView.as_view(), name='studio-add'),
+    path('studios/<int:pk>/update/', StudioUpdateView.as_view(), name='studio-update'),
+    path('studios/<int:pk>/delete/', StudioDeleteView.as_view(), name='studio-delete'),
+
+    # Purchase URLs
+    path('purchase/add/', PurchaseCreateView.as_view(), name='purchase-add'),
     
     
     

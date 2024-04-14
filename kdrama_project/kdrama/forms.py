@@ -1,5 +1,5 @@
 from django import forms
-from .models import Movie, Actor, Award
+from .models import Movie, Actor, Award, Director, Studio, Purchase
 
 class MovieForm(forms.ModelForm):
     class Meta:
@@ -29,3 +29,18 @@ class AwardForm(forms.ModelForm):
     class Meta:
         model = Award
         fields = ['name']
+
+class DirectorForm(forms.ModelForm):
+    class Meta:
+        model = Director
+        fields = "all"
+
+class StudioForm(forms.ModelForm):
+    class Meta:
+        model = Studio
+        fields = "all"
+
+class PurchaseForm(forms.ModelForm):
+    class Meta:
+        model = Purchase
+        fields = ['movie', 'total']  #user will be filled in by the view
