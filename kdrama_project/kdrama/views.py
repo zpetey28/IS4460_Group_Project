@@ -452,7 +452,9 @@ class ReportHomeView(LoginRequiredMixin, View):
         if not is_admin(request):
             return redirect(reverse(UNAUTHORIZED_REDIRECT))
 
-        return render(request, self.template_name)
+        context = {'is_admin':is_admin(request)}
+
+        return render(request, self.template_name, context)
     
 class CustomerSalesReportView(LoginRequiredMixin, View):
     template_name = 'reports/customer_sales.html'
