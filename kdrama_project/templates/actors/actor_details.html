@@ -120,8 +120,6 @@
             text-decoration: none;
 
             width:20%;
-
-            margin-bottom: 20px;
         }
 
         #kdrama-pane:hover {
@@ -189,8 +187,7 @@
         <hr>
 
         <h2 id="section-title">K-Dramas</h2>
-        <div id="kdrama-view">
-            
+        <div id="kdrama-view"> 
             {% for kdrama in kdramas %}
                 <a id="kdrama-pane" href="{% url 'movie-details' kdrama.movie_id %}">
                     <img src="{{kdrama.image_url}}" alt="{{kdrama.title}}" id="kdrama-image">
