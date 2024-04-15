@@ -229,8 +229,8 @@
 
         #award-pane:hover {
             text-decoration: none;
-            color: #333333;
-            background-color: white;
+            color: #777777;
+            background-color: #333333;
         }
 
         #award-name {
@@ -304,45 +304,62 @@
                         <p id="actor-name">{{actor}}</p>
                     </a>
                 {% endfor %}
+                {% if is_admin %}
                 <a href="{% url 'movie-add-actor' kdrama.movie_id %}" id="add-actor-button">
                     +<br>Add<br>Actor
                 </a>
+                {% endif %}
             </div>
             <br>
+            {% if is_admin %}
             <a href="{% url 'movie-remove-actor' kdrama.movie_id %}" id="button-styles"><div class="button">
                 - Remove Actor
             </div></a>
+            {% endif %}
             <hr>
             <h2 id="section-title">Awards</h2>
             <div id="award-view">
                 {% for award in kdrama.awards.all %}
+                    {% if is_admin %}
                     <a id="award-pane" href="{% url 'award-update' kdrama.movie_id award.award_id %}">
+                    {% else %}
+                    <a id="award-pane">
+                    {% endif %}
                         <span class="glyphicon glyphicon-star" style="color:yellow; font-size: 30px;"></span>
                         <p id="award-name">{{award}}</p>
                     </a>
                 {% endfor %}
+                {% if is_admin %}
                 <a href="{% url 'award-add' kdrama.movie_id %}" id="add-award-button">
                     +<br>Add<br>Award
                 </a>
+                {% endif %}
             </div>
             <br>
+            {% if is_admin %}
             <a href="{% url 'award-delete' kdrama.movie_id %}" id="button-styles"><div class="button">
                 - Remove Award
             </div></a>
-            <hr>
+            {% endif %}
+            
+            
             {% if kdrama.youtube_url %}
-                <iframe width="560" height="315" src="{{ kdrama.youtube_url }}" frameborder="0" allowfullscreen></iframe>
                 <hr>
+                <iframe width="560" height="315" src="{{ kdrama.youtube_url }}" frameborder="0" allowfullscreen></iframe>
+                
             {% endif %}
 
-            <div id="controls">
-                <a href="{% url 'movie-update' kdrama.movie_id %}" id="button-styles"><div class="button">
-                    Edit
-                </div></a>
-                <a href="{% url 'movie-delete' kdrama.movie_id %}" id="button-styles"><div class="button">
-                    Delete
-                </div></a>
-            </div>
+            {% if is_admin %}
+                <hr>
+                <div id="controls">
+                    <a href="{% url 'movie-update' kdrama.movie_id %}" id="button-styles"><div class="button">
+                        Edit
+                    </div></a>
+                    <a href="{% url 'movie-delete' kdrama.movie_id %}" id="button-styles"><div class="button">
+                        Delete
+                    </div></a>
+                </div>
+            {% endif %}
         </div>
 
         <div id="right">

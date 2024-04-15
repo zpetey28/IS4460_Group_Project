@@ -10,12 +10,9 @@
       <div class="dropdown" id="text-white">
         <span>Profile</span>
         <div class="dropdown-content">
-            <div id="dropdown-item">
-                <form action="{% url 'logout' %}" method="post">
-                    {%csrf_token%}
-                    <button type="submit" id="logout-button">Logout</button>
-                </form>
-            </div>
+            <a href="{%url 'movie-list'%}" id="dropdown-link"><div id="dropdown-item">
+                K-Drama List
+            </div></a>
 
             <a href="{%url 'actor-list'%}" id="dropdown-link"><div id="dropdown-item">
                 Actor List
@@ -33,6 +30,7 @@
                 View Purchases
             </div></a>
 
+            {% if is_admin %}
             <a href="{%url 'actor-add'%}" id="dropdown-link"><div id="dropdown-item">
                 Add Actor
             </div></a>
@@ -52,6 +50,15 @@
             <a href="{%url 'report-home'%}" id="dropdown-link"><div id="dropdown-item">
                 Reports
             </div></a>
+
+            {% endif %}
+
+            <div id="dropdown-item">
+                <form action="{% url 'logout' %}" method="post">
+                    {%csrf_token%}
+                    <button type="submit" id="logout-button">Logout</button>
+                </form>
+            </div>
         </div>
       </div>
     </div>

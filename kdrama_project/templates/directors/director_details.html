@@ -195,8 +195,10 @@
             {% endfor %}
         </div>
 
-        <hr>
+        
 
+        {% if is_admin %}
+        <hr>
         <div id="controls">
             <a href="{% url 'director-update' director.director_id %}" id="button-styles"><div class="button">
                 Edit
@@ -205,6 +207,7 @@
                 Delete
             </div></a>
         </div>
+        {% endif %}
 
     </div>
 

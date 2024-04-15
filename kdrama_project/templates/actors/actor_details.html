@@ -120,6 +120,8 @@
             text-decoration: none;
 
             width:20%;
+
+            margin-bottom: 20px;
         }
 
         #kdrama-pane:hover {
@@ -195,11 +197,14 @@
                     <p id="kdrama-name">{{kdrama.title}}</p>
                 </a>
             {% endfor %}
+            {% if is_admin %}
             <a href="{% url 'actor-add-movie' actor.actor_id %}" id="add-kdrama-button">
                 +<br>Add<br>K-Drama
             </a>
+            {% endif %}
         </div>
 
+        {% if is_admin %}
         <hr>
 
         <div id="controls">
@@ -210,7 +215,7 @@
                 Delete
             </div></a>
         </div>
-
+        {% endif %}
     </div>
 
     <div class="footer" id="bootstrap-override">

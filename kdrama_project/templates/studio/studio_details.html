@@ -120,6 +120,7 @@
             text-decoration: none;
 
             width:20%;
+            margin-bottom: 20px;
         }
 
         #kdrama-pane:hover {
@@ -220,8 +221,10 @@
             {% endfor %}
         </div>
 
-        <hr>
+        
 
+        {% if is_admin %}
+        <hr>
         <div id="controls">
             <a href="{% url 'studio-update' studio.studio_id %}" id="button-styles"><div class="button">
                 Edit
@@ -230,6 +233,7 @@
                 Delete
             </div></a>
         </div>
+        {% endif %}
 
     </div>
 
