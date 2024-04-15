@@ -11,11 +11,11 @@ from .views import (MovieListView, MovieDetailView, MovieCreateView,
                     StudioListView, StudioCreateView, StudioUpdateView, StudioDeleteView, StudioDetailView,
                     PurchaseCreateView, PurchaseConfirmationView, UserPurchasesView,
                     ReportHomeView, CustomerSalesReportView, MovieSalesReportView, MovieActorListReportView,
-                    MovieAwardListReportView)
+                    MovieAwardListReportView, Unauthorized)
 
 
 urlpatterns = [
-
+    path('unauthorized/', Unauthorized.as_view(), name='unauthorized'),
     path('list/', MovieListView.as_view(), name='movie-list'),
     path('details/<int:kdrama_id>/', MovieDetailView.as_view(), name='movie-details'),
     path('details/', MovieDetailView.as_view(), name='movie-details'),

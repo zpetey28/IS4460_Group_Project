@@ -17,7 +17,7 @@ from django.db.models import Sum, Count
 def is_admin(request):
     return request.user.groups.filter(name='admin').exists()
 
-UNAUTHORIZED_REDIRECT = 'movie-list'
+UNAUTHORIZED_REDIRECT = 'unauthorized'
 
 class MovieListCreateAPIView(generics.ListCreateAPIView):
     queryset = Movie.objects.all()
@@ -780,5 +780,14 @@ class UserPurchasesView(LoginRequiredMixin, View):
         purchases = Purchase.objects.filter(user=request.user)
         
         context = {'purchases':purchases, 'is_admin':is_admin(request)}
+
+        return render(request = request, template_name=self.template_name, context=context)
+
+class Unauthorized(LoginRequiredMixin, View):
+    template_name = 'registration/unauthorized.html'
+
+    def get(self, request):
+        
+        context = {'is_admin':is_admin(request)}
 
         return render(request = request, template_name=self.template_name, context=context)

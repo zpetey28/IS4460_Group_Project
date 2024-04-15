@@ -7,14 +7,32 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
     <title>Unauthorized</title>
-    
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+
+            text-align: center;
+            align-items: center;
+            padding: 90px;
+            gap: 50px;
+        }
+
+        #button-styles {
+            text-decoration: none;
+        }
+
+        #button-styles:hover {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     {% include '../blocks/header.html' %}
     
     <div class="container">
         <h1 id="title">Unauthorized</h1>
-        <a href="movie-list">
+        <a href="{% url 'movie-list' %}" id="button-styles">
             <div class="button">
                 K-Drama List
             </div>
