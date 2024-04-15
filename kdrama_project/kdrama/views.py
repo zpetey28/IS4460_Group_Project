@@ -334,7 +334,7 @@ class ActorUpdateView(LoginRequiredMixin, View):
         actor_form = ActorForm(request.POST, instance=actor)
         if actor_form.is_valid():
             actor_form.save()
-            return redirect(reverse('actor-list'))
+            return redirect(reverse('actor-details') + str(actor_id))
         context = {'form': actor_form, 'action': self.action, 'is_admin':is_admin(request)}
         return render(request, template_name=self.template_name, context=context)
 
