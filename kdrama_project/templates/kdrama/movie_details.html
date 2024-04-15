@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
-    <title>K-Drama Details</title>
+    <title>{{kdrama}} Details</title>
     <style>
 
         body {
@@ -281,7 +281,7 @@
                     <p>Release Year: {{ kdrama.release_year }}</p>
                 </div>
                 <div class="description-item">
-                    <p>Episode Length: {{ kdrama.episode_length }}</p>
+                    <p>Studio: {{ kdrama.studio }}</p>
                 </div>
                 <div class="description-item">
                     <span class="glyphicon glyphicon-star"></span>
@@ -292,6 +292,15 @@
                 </div>
                 <div class="description-item">
                     <p>Price: ${{ kdrama.price }}</p>
+                </div>
+                <div class="description-item">
+                    <p>Episode Length: {{ kdrama.episode_length }}</p>
+                </div>
+                <div class="description-item">
+                    <p>Seasons: {{ kdrama.seasons }}</p>
+                </div>
+                <div class="description-item">
+                    <p>Episodes: {{ kdrama.episodes }}</p>
                 </div>
             </div>
             <hr>
