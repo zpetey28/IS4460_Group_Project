@@ -31,7 +31,26 @@
             margin-bottom: 50px;
             background-color: #FFE6E6DF;
             border-image: linear-gradient(to right, #9b278edf, #a63869DF) 1;
-            padding-right: 25vw;
+
+            display: flex;
+            flex-direction: row;
+        }
+
+        #left {
+            flex:1;
+        }
+
+        #right {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding-top: 50px;
+
+            width: 20vw;
+
+            justify-content: start;
+            align-items: center;
+            align-content: center;
         }
 
         #remove-spacing {
@@ -44,14 +63,19 @@
         }
 
         .movie-image {
-            position:absolute;
-            right:70px;
-            top: 40px;
             height:40vh;
             width: 28vh;
             border-width:3px; 
             border-style: solid;
             border-image: linear-gradient(to right, #AA36A3, #B84B75) 1;
+        }
+
+        #purchase-button {
+            text-decoration: none;
+        }
+
+        #purchase-button:hover {
+            text-decoration: none;
         }
 
         #description {
@@ -167,17 +191,7 @@
             font-weight: 700;
         }
 
-        #purchase-button {
-            position: absolute;
-            text-decoration: none;
-
-            right:80px;
-            top: 350px;
-        }
-
-        #purchase-button:hover {
-            text-decoration: none;
-        }
+       
 
         #director-link {
             text-decoration: none;
@@ -253,83 +267,88 @@
     {% include '../blocks/header.html' %}
 
     <div class="container">
-        <h1 id="title-text">{{kdrama.title}}</h1>
-        <hr>
-        <img src="{{ kdrama.image_url }}" alt="{{ kdrama.title }}" class="movie-image">
-        <a href="{% url 'purchase' kdrama.movie_id %}" id="purchase-button"><div class="button">
-            Purchase
-        </div></a>
-
-        <p id="description">{{ kdrama.description }}</p>
-        <hr>
-        <div id="kdrama-descriptions">
-            <div class="description-item">
-                <a href="{% url 'director-details' kdrama.director.director_id %}" id="director-link"><p>Director: {{ kdrama.director }}</p></a>
-            </div>
-            <div class="description-item">
-                <p>Release Year: {{ kdrama.release_year }}</p>
-            </div>
-            <div class="description-item">
-                <p>Episode Length: {{ kdrama.episode_length }}</p>
-            </div>
-            <div class="description-item">
-                <span class="glyphicon glyphicon-star"></span>
-                <p>{{ kdrama.rating }}</p>
-            </div>
-            <div class="description-item">
-                <p>Genres: {{ kdrama.genre }}</p>
-            </div>
-            <div class="description-item">
-                <p>Price: ${{ kdrama.price }}</p>
-            </div>
-        </div>
-        <hr>
-        <h2 id="section-title">Actors</h2>
-        <div id="actor-view">
-            
-            {% for actor in kdrama.actors.all %}
-                <a id="actor-pane" href="{% url 'actor-details' actor.actor_id %}">
-                    <img src="{{actor.image_url}}" alt="{{actor}}" id="actor-image">
-                    <p id="actor-name">{{actor}}</p>
-                </a>
-            {% endfor %}
-            <a href="{% url 'movie-add-actor' kdrama.movie_id %}" id="add-actor-button">
-                +<br>Add<br>Actor
-            </a>
-        </div>
-        <br>
-        <a href="{% url 'movie-remove-actor' kdrama.movie_id %}" id="button-styles"><div class="button">
-            - Remove Actor
-        </div></a>
-        <hr>
-        <h2 id="section-title">Awards</h2>
-        <div id="award-view">
-            {% for award in kdrama.awards.all %}
-                <a id="award-pane" href="{% url 'award-update' kdrama.movie_id award.award_id %}">
-                    <span class="glyphicon glyphicon-star" style="color:yellow; font-size: 30px;"></span>
-                    <p id="award-name">{{award}}</p>
-                </a>
-            {% endfor %}
-            <a href="{% url 'award-add' kdrama.movie_id %}" id="add-award-button">
-                +<br>Add<br>Award
-            </a>
-        </div>
-        <br>
-        <a href="{% url 'award-delete' kdrama.movie_id %}" id="button-styles"><div class="button">
-            - Remove Award
-        </div></a>
-        <hr>
-        {% if kdrama.youtube_url %}
-            <iframe width="560" height="315" src="{{ kdrama.youtube_url }}" frameborder="0" allowfullscreen></iframe>
+        <div id="left">
+            <h1 id="title-text">{{kdrama.title}}</h1>
             <hr>
-        {% endif %}
 
-        <div id="controls">
-            <a href="{% url 'movie-update' kdrama.movie_id %}" id="button-styles"><div class="button">
-                Edit
+            <p id="description">{{ kdrama.description }}</p>
+            <hr>
+            <div id="kdrama-descriptions">
+                <div class="description-item">
+                    <a href="{% url 'director-details' kdrama.director.director_id %}" id="director-link"><p>Director: {{ kdrama.director }}</p></a>
+                </div>
+                <div class="description-item">
+                    <p>Release Year: {{ kdrama.release_year }}</p>
+                </div>
+                <div class="description-item">
+                    <p>Episode Length: {{ kdrama.episode_length }}</p>
+                </div>
+                <div class="description-item">
+                    <span class="glyphicon glyphicon-star"></span>
+                    <p>{{ kdrama.rating }}</p>
+                </div>
+                <div class="description-item">
+                    <p>Genres: {{ kdrama.genre }}</p>
+                </div>
+                <div class="description-item">
+                    <p>Price: ${{ kdrama.price }}</p>
+                </div>
+            </div>
+            <hr>
+            <h2 id="section-title">Actors</h2>
+            <div id="actor-view">
+                
+                {% for actor in kdrama.actors.all %}
+                    <a id="actor-pane" href="{% url 'actor-details' actor.actor_id %}">
+                        <img src="{{actor.image_url}}" alt="{{actor}}" id="actor-image">
+                        <p id="actor-name">{{actor}}</p>
+                    </a>
+                {% endfor %}
+                <a href="{% url 'movie-add-actor' kdrama.movie_id %}" id="add-actor-button">
+                    +<br>Add<br>Actor
+                </a>
+            </div>
+            <br>
+            <a href="{% url 'movie-remove-actor' kdrama.movie_id %}" id="button-styles"><div class="button">
+                - Remove Actor
             </div></a>
-            <a href="{% url 'movie-delete' kdrama.movie_id %}" id="button-styles"><div class="button">
-                Delete
+            <hr>
+            <h2 id="section-title">Awards</h2>
+            <div id="award-view">
+                {% for award in kdrama.awards.all %}
+                    <a id="award-pane" href="{% url 'award-update' kdrama.movie_id award.award_id %}">
+                        <span class="glyphicon glyphicon-star" style="color:yellow; font-size: 30px;"></span>
+                        <p id="award-name">{{award}}</p>
+                    </a>
+                {% endfor %}
+                <a href="{% url 'award-add' kdrama.movie_id %}" id="add-award-button">
+                    +<br>Add<br>Award
+                </a>
+            </div>
+            <br>
+            <a href="{% url 'award-delete' kdrama.movie_id %}" id="button-styles"><div class="button">
+                - Remove Award
+            </div></a>
+            <hr>
+            {% if kdrama.youtube_url %}
+                <iframe width="560" height="315" src="{{ kdrama.youtube_url }}" frameborder="0" allowfullscreen></iframe>
+                <hr>
+            {% endif %}
+
+            <div id="controls">
+                <a href="{% url 'movie-update' kdrama.movie_id %}" id="button-styles"><div class="button">
+                    Edit
+                </div></a>
+                <a href="{% url 'movie-delete' kdrama.movie_id %}" id="button-styles"><div class="button">
+                    Delete
+                </div></a>
+            </div>
+        </div>
+
+        <div id="right">
+            <img src="{{ kdrama.image_url }}" alt="{{ kdrama.title }}" class="movie-image">
+            <a href="{% url 'purchase' kdrama.movie_id %}" id="purchase-button"><div class="button">
+                Purchase
             </div></a>
         </div>
     </div>

@@ -7,7 +7,7 @@ class MovieForm(forms.ModelForm):
 
     class Meta:
         model = Movie
-        fields = ['title', 'description', 'director', 'episode_length', 'seasons', 'episodes', 'studio', 'price', 'rating', 'genre', 'image_url', 'youtube_url']
+        fields = ['title', 'description', 'director', 'studio', 'release_year', 'price', 'episode_length', 'seasons', 'episodes', 'rating', 'genre', 'image_url', 'youtube_url']
 
 class AddActorForm(forms.ModelForm):
     actor_selection = forms.ModelChoiceField(queryset=Actor.objects.all())
